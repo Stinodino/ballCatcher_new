@@ -43,8 +43,9 @@ namespace WindowsFormsApplication1
             float balwrijvingbodem,
             float zwaarteKracht,
             string fotoBal,
-            int waarde
-            ) : base(startX, startY, startVX, startVY, startgroote, balwrijving, balwrijvingbodem, zwaarteKracht, fotoBal, waarde)
+            int waarde,
+            string soundDirecotry
+            ) : base(startX, startY, startVX, startVY, startgroote, balwrijving, balwrijvingbodem, zwaarteKracht, fotoBal, waarde,soundDirecotry)
 
         {
             balX = startX;

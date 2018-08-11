@@ -25,10 +25,10 @@ namespace WindowsFormsApplication1
 
         Pen blackPen = new Pen(Color.Black, 3);
         Pen redPen = new Pen(Color.Red, 3);
-        RekkerBal kleineBal = new RekkerBal(10, 10, 5, 0, 20,(float)0.81,(float)0.97,(float)0.81 , "textures/ballen/kleine_rekkerbal.gif", 3);
-        RekkerBal middelGroteBal = new RekkerBal(100,10,5,0,40,(float)0.71,(float)0.96, (float)0.81, "textures/ballen/middelgrote_rekkerbal.gif", 2);
-        RekkerBal groteBal = new RekkerBal(200, 10, 5, 0, 40, (float)0.69,(float)0.95, (float)0.81, "textures/ballen/grote_rekkerbal.gif", 1);
-        Bom bom = new Bom(300, 10, 5, 0, 40, (float)0.40, (float)0.60, (float)0.81, -10, "textures/bom/bom.png", "textures/bom/explosion/1.gif", "textures/bom/explosion/2.gif", "textures/bom/explosion/3.gif", "textures/bom/explosion/4.gif", "textures/bom/explosion/5.gif", "textures/bom/explosion/6.gif", "textures/bom/explosion/7.gif", "textures/bom/explosion/8.gif", "textures/bom/explosion/9.gif", "textures/bom/explosion/10.gif", "textures/bom/explosion/11.gif", "textures/bom/explosion/12.gif", "textures/bom/explosion/13.gif", "textures/bom/explosion/14.gif", "textures/bom/explosion/15.gif", "textures/bom/explosion/16.gif", "textures/bom/explosion/17.gif");
+        RekkerBal kleineBal = new RekkerBal(10, 10, 5, 0, 20,(float)0.81,(float)0.97,(float)0.81 , "textures/ballen/kleine_rekkerbal.gif", 3, "sounds/grote_rekkerbalbots.wav");
+        RekkerBal middelGroteBal = new RekkerBal(100,10,5,0,40,(float)0.71,(float)0.96, (float)0.81, "textures/ballen/middelgrote_rekkerbal.gif", 2, "sounds/grote_rekkerbalbots.wav");
+        RekkerBal groteBal = new RekkerBal(200, 10, 5, 0, 40, (float)0.69,(float)0.95, (float)0.81, "textures/ballen/grote_rekkerbal.gif", 1, "sounds/grote_rekkerbalbots.wav");
+        Bom bom = new Bom(300, 10, 5, 0, 40, (float)0.40, (float)0.60, (float)0.81, -10, "sounds/grote_rekkerbalbots.wav", "textures/bom/bom.png", "textures/bom/explosion/1.gif", "textures/bom/explosion/2.gif", "textures/bom/explosion/3.gif", "textures/bom/explosion/4.gif", "textures/bom/explosion/5.gif", "textures/bom/explosion/6.gif", "textures/bom/explosion/7.gif", "textures/bom/explosion/8.gif", "textures/bom/explosion/9.gif", "textures/bom/explosion/10.gif", "textures/bom/explosion/11.gif", "textures/bom/explosion/12.gif", "textures/bom/explosion/13.gif", "textures/bom/explosion/14.gif", "textures/bom/explosion/15.gif", "textures/bom/explosion/16.gif", "textures/bom/explosion/17.gif");
         Mand mand1;
         Mand mand2;
 

@@ -40,6 +40,7 @@ namespace WindowsFormsApplication1
           float balwrijvingbodem,
           float zwaarteKracht,
           int waarde,
+          string soundDirecotry,
           string fotoBal,
           string fotoExplosie1,
           string fotoExplosie2,
@@ -59,7 +60,7 @@ namespace WindowsFormsApplication1
           string fotoExplosie16,
           string fotoExplosie17
 
-          ) : base(startX, startY, startVX, startVY, startgroote, balwrijving, balwrijvingbodem, zwaarteKracht, fotoBal, waarde)
+          ) : base(startX, startY, startVX, startVY, startgroote, balwrijving, balwrijvingbodem, zwaarteKracht, fotoBal, waarde, soundDirecotry)
         {
             explosion1 = Image.FromFile(fotoExplosie1);
             explosion2 = Image.FromFile(fotoExplosie2);

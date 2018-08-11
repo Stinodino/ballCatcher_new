@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
 
 namespace WindowsFormsApplication1
 {
@@ -28,6 +29,7 @@ namespace WindowsFormsApplication1
         protected Random rnd;
         protected float mijnZwaarteKracht = (float)0.81;
         protected Image newImage;
+        protected SoundPlayer botser;
 
 
 
@@ -43,7 +45,8 @@ namespace WindowsFormsApplication1
             float balwrijvingbodem,
             float zwaarteKracht,
             string fotoBal,
-            int waarde)
+            int waarde,
+            string soundDirecotry)
 
         {
             balX = startX;
@@ -57,6 +60,7 @@ namespace WindowsFormsApplication1
             rnd = new Random();
             mijnZwaarteKracht = zwaarteKracht;
             newImage = Image.FromFile(fotoBal);
+            botser = new SoundPlayer(soundDirecotry);
         }
 
 
@@ -77,6 +81,8 @@ namespace WindowsFormsApplication1
                 vybal = -vybal * wrijving;
 
                 vxbal = vxbal * wrijvingbodem;
+                if(Math.Abs(vybal) > 1)
+                    botser.Play();
             }
             if (balX > mijnform.ClientRectangle.Width - groote)
             {
