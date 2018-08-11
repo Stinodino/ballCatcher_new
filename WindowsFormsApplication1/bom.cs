@@ -13,6 +13,7 @@ namespace WindowsFormsApplication1
     public class Bom: Bal
     {
         int aftellerExplotie = 250;
+        /*
         Image explosion1;
         Image explosion2;
         Image explosion3;
@@ -30,6 +31,8 @@ namespace WindowsFormsApplication1
         Image explosion15;
         Image explosion16;
         Image explosion17;
+        */
+        Image[] explosions;
 
         public Bom(float startX,
           float startY,
@@ -42,26 +45,18 @@ namespace WindowsFormsApplication1
           int waarde,
           string soundDirecotry,
           string fotoBal,
-          string fotoExplosie1,
-          string fotoExplosie2,
-          string fotoExplosie3,
-          string fotoExplosie4,
-          string fotoExplosie5,
-          string fotoExplosie6,
-          string fotoExplosie7,
-          string fotoExplosie8,
-          string fotoExplosie9,
-          string fotoExplosie10,
-          string fotoExplosie11,
-          string fotoExplosie12,
-          string fotoExplosie13,
-          string fotoExplosie14,
-          string fotoExplosie15,
-          string fotoExplosie16,
-          string fotoExplosie17
+          string[] fotoExplosies
 
           ) : base(startX, startY, startVX, startVY, startgroote, balwrijving, balwrijvingbodem, zwaarteKracht, fotoBal, waarde, soundDirecotry)
         {
+            explosions = new Image[fotoExplosies.Length];
+            for(int i = 0; i<fotoExplosies.Length;i++)
+            {
+                explosions[i] = Image.FromFile(fotoExplosies[i]);
+            }
+
+
+            /*
             explosion1 = Image.FromFile(fotoExplosie1);
             explosion2 = Image.FromFile(fotoExplosie2);
             explosion3 = Image.FromFile(fotoExplosie3);
@@ -79,6 +74,7 @@ namespace WindowsFormsApplication1
             explosion15 = Image.FromFile(fotoExplosie15);
             explosion16 = Image.FromFile(fotoExplosie16);
             explosion17 = Image.FromFile(fotoExplosie17);
+            */
         }
 
 
@@ -92,6 +88,15 @@ namespace WindowsFormsApplication1
             Point[] hoeken = { ulCorner, urCorner, llCorner };
 
             aftellerExplotie = aftellerExplotie - 1;
+
+            if(aftellerExplotie>-1 && aftellerExplotie < explosions.Length)
+                e.Graphics.DrawImage(explosions[aftellerExplotie], hoeken);
+            else
+            if (aftellerExplotie < 1)
+                respawn();
+            else
+                e.Graphics.DrawImage(newImage, hoeken);
+            /*
 
             if (aftellerExplotie == 1)
                 e.Graphics.DrawImage(explosion1, hoeken);
@@ -134,6 +139,7 @@ namespace WindowsFormsApplication1
                 {
                 e.Graphics.DrawImage(newImage, hoeken);
                 }
+                */
         }
 
 
