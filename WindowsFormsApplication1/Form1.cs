@@ -23,7 +23,7 @@ namespace WindowsFormsApplication1
         Bom bom;
         Mand mand1;
         Mand mand2;
-
+    
 
         public Form1()
         {
