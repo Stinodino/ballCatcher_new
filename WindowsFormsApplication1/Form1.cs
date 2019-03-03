@@ -16,9 +16,9 @@ namespace WindowsFormsApplication1
         // Create pen en ballen.
         Pen blackPen = new Pen(Color.Black, 3);
         Pen redPen = new Pen(Color.Red, 3);
-        RekkerBal kleineBal = new RekkerBal(10, 10, 5, 0, 20, (float)0.81, (float)0.97, (float)0.81, "textures/ballen/kleine_rekkerbal.gif", 3, "sounds/grote_rekkerbalbots.wav");
-        RekkerBal middelGroteBal = new RekkerBal(100, 10, 5, 0, 40, (float)0.71, (float)0.96, (float)0.81, "textures/ballen/middelgrote_rekkerbal.gif", 2, "sounds/grote_rekkerbalbots.wav");
-        RekkerBal groteBal = new RekkerBal(200, 10, 5, 0, 40, (float)0.69, (float)0.95, (float)0.81, "textures/ballen/grote_rekkerbal.gif", 1, "sounds/grote_rekkerbalbots.wav");
+        RekkerBal kleineBal = new RekkerBal(10, 10, 5, 0, 20, (float)0.81, (float)0.97, (float)0.81, "textures/ballen/kleine_rekkerbal.gif", 3, "textures/ballen/sound/grote_rekkerbalbots.wav");
+        RekkerBal middelGroteBal = new RekkerBal(100, 10, 5, 0, 40, (float)0.71, (float)0.96, (float)0.81, "textures/ballen/middelgrote_rekkerbal.gif", 2, "textures/ballen/sound/grote_rekkerbalbots.wav");
+        RekkerBal groteBal = new RekkerBal(200, 10, 5, 0, 40, (float)0.69, (float)0.95, (float)0.81, "textures/ballen/grote_rekkerbal.gif", 1, "textures/ballen/sound/grote_rekkerbalbots.wav");
 
         Bom bom;
         Mand mand1;
@@ -44,8 +44,8 @@ namespace WindowsFormsApplication1
 
             String[] explosions = new string[16];
             for (int i = 0; i < 16; i++)
-                explosions[i] = "textures/bom/explosion/" + i + ".gif";
-            bom = new Bom(300, 10, 5, 0, 40, (float)0.40, (float)0.60, (float)0.81, -10, "sounds/grote_rekkerbalbots.wav", "textures/bom/bom.png", explosions);
+                explosions[i] = "textures/bom/explosion/" + Convert.ToString(i+1) + ".gif";
+            bom = new Bom(300, 10, 5, 0, 40, (float)0.40, (float)0.60, (float)0.81, -10, "textures/ballen/sound/grote_rekkerbalbots.wav", "textures/bom/bom.png", explosions);
         }
 
 
