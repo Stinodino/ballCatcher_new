@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApplication1
 {
-    public partial class Form1 : Form
+    public partial class Game : Form
     {
         public string Naam1 { get; set; }
         public string Naam2 { get; set; }
@@ -31,17 +31,17 @@ namespace WindowsFormsApplication1
         Mand mand1;
         Mand mand2;
 
-        public Form1(string naam1, string naam2)
+        public Game(string naam1, string naam2)
         {
             Naam1 = naam1;
             Naam2 = naam2;
             InitializeComponent();
-            this.Paint += new PaintEventHandler(mijn_paint);
+            this.Paint += new PaintEventHandler(MijnPaint);
 
             // start the periodic timer (wekker)
             System.Windows.Forms.Timer timer1 = new System.Windows.Forms.Timer();
             timer1.Interval = 20;  // milisec
-            timer1.Tick += new System.EventHandler(timer1_Tick);
+            timer1.Tick += new System.EventHandler(Timer1Tick);
             timer1.Start();
 
             //geen timer meer
@@ -55,13 +55,13 @@ namespace WindowsFormsApplication1
                 explosions[i] = @"../../files/images/ballen/explosion/" + Convert.ToString(i + 1) + ".gif";
             bom = new Bom(300, 10, 5, 0, 40, (float)0.40, (float)0.60, (float)0.81, -10, @"../../files/sounds/grote_rekkerbalbots.wav", @"../../files/images/ballen/bom.png", explosions);
         }
-        public Form1() : this("Speler1", "Speler2")
+        public Game() : this("Speler1", "Speler2")
         {
             
         }
 
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Timer1Tick(object sender, EventArgs e)
         {
             for(int i=0;i<ballen.Length;i++)
             {
@@ -113,7 +113,7 @@ namespace WindowsFormsApplication1
         }
 
 
-        private void mijn_paint(object sender, PaintEventArgs e)
+        private void MijnPaint(object sender, PaintEventArgs e)
         {
             // Get Graphics Object
             Graphics g = e.Graphics;
@@ -126,6 +126,11 @@ namespace WindowsFormsApplication1
             mand2.teken(blackPen, e, this);
             mand1.teken(blackPen, e, this);
             bom.teken(blackPen, e);
+        }
+
+        private void Game_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

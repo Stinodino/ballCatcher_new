@@ -21,14 +21,14 @@ namespace WindowsFormsApplication1
         {
             string naam1 = textBoxNaam1.Text;
             string naam2 = textBoxNaam2.Text;
-            Form1 form;
+            Game form;
             if (naam1 != "" || naam2 != "")
             {
-                form = new Form1(textBoxNaam1.Text, textBoxNaam2.Text);
+                form = new Game(textBoxNaam1.Text, textBoxNaam2.Text);
             }
             else
             {
-                form = new Form1();
+                form = new Game();
             }
             form.Show();
             this.Hide();

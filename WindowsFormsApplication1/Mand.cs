@@ -47,19 +47,19 @@ namespace WindowsFormsApplication1
             newImage = Image.FromFile(mijnFotoMand);
         }
 
-        public void rechts(Form1 mijnForm)
+        public void rechts(Game mijnForm)
         {
             if ((mijnXMand < mijnForm.ClientRectangle.Width - mijnGrote) && (mijnVXMand < mijnSnelheidLemiet))//is NIET tegen rand? & nog niet aan lemiet?
                 mijnVXMand = mijnVXMand + mijnHorizontaleVersnelling;
         }
 
-        public void links(Form1 mijnForm)
+        public void links(Game mijnForm)
         {
             if ((mijnXMand > 0 ) && (mijnVXMand > - mijnSnelheidLemiet))//is NIET tegen rand? & nog niet aan lemiet?
                 mijnVXMand = mijnVXMand - mijnHorizontaleVersnelling;
         }
 
-        public void jump(Form1 mijnForm)
+        public void jump(Game mijnForm)
         {
             if (mijnYMand == mijnForm.ClientRectangle.Height - mijnGrote) //is tegen grond? + mand stuitert niet meer?
 
@@ -71,7 +71,7 @@ namespace WindowsFormsApplication1
 
 
 
-        public void teken(Pen onzePen, PaintEventArgs e, Form1 mijnForm)
+        public void teken(Pen onzePen, PaintEventArgs e, Game mijnForm)
         {
 
             // Create parallelogram for drawing image..
@@ -92,7 +92,7 @@ namespace WindowsFormsApplication1
         }
 
 
-        public void beweeg(Form1 mijnForm)
+        public void beweeg(Game mijnForm)
         {
                 mijnVYMand = mijnVYMand + mijnZwaarteKracht;
 

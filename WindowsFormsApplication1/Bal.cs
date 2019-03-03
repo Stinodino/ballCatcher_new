@@ -64,7 +64,7 @@ namespace WindowsFormsApplication1
         }
 
 
-        public void beweeg(Form1 mijnform)
+        public void beweeg(Game mijnform)
         {
             // wekker loopt af
             // pas de positie van de bal aan
@@ -121,7 +121,7 @@ namespace WindowsFormsApplication1
 
 
         }
-        public void checkMand(Mand mijnMand, Form1 mijnForm)
+        public void checkMand(Mand mijnMand, Game mijnForm)
         {
             if (((mijnMand.mijnXMand < balX) && (balX < mijnMand.mijnXMand + 100)) && (((mijnMand.mijnYMand < balY) && (balY < mijnMand.mijnYMand + 100))))
             {

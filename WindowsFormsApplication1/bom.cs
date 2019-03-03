@@ -57,7 +57,7 @@ namespace WindowsFormsApplication1
         }
 
 
-        public void checkMand(Mand mijnMand, Form1 mijnForm)
+        public void checkMand(Mand mijnMand, Game mijnForm)
         {
             int ymand = mijnForm.ClientRectangle.Height - mijnMand.mijnGrote;
             if ((mijnMand.mijnXMand < balX + groote) && ((mijnMand.mijnXMand + mijnMand.mijnGrote > balX) && ((mijnMand.mijnYMand < balY + groote) && (mijnMand.mijnYMand + mijnMand.mijnGrote > balY))))   //test test in mand
