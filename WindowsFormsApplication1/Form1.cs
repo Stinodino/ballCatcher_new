@@ -16,9 +16,12 @@ namespace WindowsFormsApplication1
         // Create pen en ballen.
         Pen blackPen = new Pen(Color.Black, 3);
         Pen redPen = new Pen(Color.Red, 3);
-        RekkerBal kleineBal = new RekkerBal(10, 10, 5, 0, 20, (float)0.81, (float)0.97, (float)0.81, "textures/ballen/kleine_rekkerbal.gif", 3, "textures/ballen/sound/grote_rekkerbalbots.wav");
-        RekkerBal middelGroteBal = new RekkerBal(100, 10, 5, 0, 40, (float)0.71, (float)0.96, (float)0.81, "textures/ballen/middelgrote_rekkerbal.gif", 2, "textures/ballen/sound/grote_rekkerbalbots.wav");
-        RekkerBal groteBal = new RekkerBal(200, 10, 5, 0, 40, (float)0.69, (float)0.95, (float)0.81, "textures/ballen/grote_rekkerbal.gif", 1, "textures/ballen/sound/grote_rekkerbalbots.wav");
+
+
+        Bal[] ballen = {
+            new RekkerBal(10, 10, 5, 0, 20, (float)0.81, (float)0.97, (float)0.81, "textures/ballen/kleine_rekkerbal.gif", 3, "textures/ballen/sound/grote_rekkerbalbots.wav"),
+            new RekkerBal(100, 10, 5, 0, 40, (float)0.71, (float)0.96, (float)0.81, "textures/ballen/middelgrote_rekkerbal.gif", 2, "textures/ballen/sound/grote_rekkerbalbots.wav"),
+            new RekkerBal(200, 10, 5, 0, 40, (float)0.69, (float)0.95, (float)0.81, "textures/ballen/grote_rekkerbal.gif", 1, "textures/ballen/sound/grote_rekkerbalbots.wav")};
 
         Bom bom;
         Mand mand1;
@@ -51,21 +54,25 @@ namespace WindowsFormsApplication1
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            //beweeg alle objecten
-            kleineBal.beweeg(this);
-            kleineBal.checkMand(mand1, this);
-            kleineBal.checkMand(mand2, this);
-            middelGroteBal.beweeg(this);
-            middelGroteBal.checkMand(mand1, this);
-            middelGroteBal.checkMand(mand2, this);
-            groteBal.beweeg(this);
-            groteBal.checkMand(mand1, this);
-            groteBal.checkMand(mand2, this);
+            for(int i=0;i<ballen.Length;i++)
+            {
+            ballen[i].beweeg(this);
+            ballen[i].checkMand(mand1, this);
+            ballen[i].checkMand(mand2, this);
+            }
+
             bom.beweeg(this);
             bom.checkMand(mand1, this);
             bom.checkMand(mand2, this);
             mand1.beweeg(this);
             mand2.beweeg(this);
+            //kleineBal.checkbotsing();
+
+            for(int i=0;i<ballen.Length;i++)
+            {
+            ballen[i].checkbotsing(ballen,i);
+            }
+
 
             // herteken het scherm
             Invalidate();
@@ -85,9 +92,7 @@ namespace WindowsFormsApplication1
                 mand2.links(this);
             if (keyData == Keys.V)
             {
-                kleineBal.valNu();
-                middelGroteBal.valNu();
-                groteBal.valNu();
+                for(int i=0;i<ballen.Length;i++) {ballen[i].valNu();}
                 bom.valNu();
             }
             if (keyData == Keys.Up)
@@ -104,9 +109,11 @@ namespace WindowsFormsApplication1
             // Get Graphics Object
             Graphics g = e.Graphics;
 
-            kleineBal.teken(redPen, e);
-            middelGroteBal.teken(blackPen, e);
-            groteBal.teken(blackPen, e);
+            for(int i=0;i<ballen.Length;i++)
+                {
+                ballen[i].teken(blackPen, e);
+                }
+
             mand2.teken(blackPen, e, this);
             mand1.teken(blackPen, e, this);
             bom.teken(blackPen, e);

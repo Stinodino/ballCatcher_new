@@ -75,6 +75,8 @@ namespace WindowsFormsApplication1
             balY = balY + vybal;
             balX = balX + vxbal;
 
+
+
             if (balY > mijnform.ClientRectangle.Height - groote)
             {
                 balY = mijnform.ClientRectangle.Height - groote;
@@ -113,6 +115,11 @@ namespace WindowsFormsApplication1
             Point llCorner = new Point(Convert.ToInt32(balX), Convert.ToInt32(balY) + groote);
             Point[] hoeken = { ulCorner, urCorner, llCorner };
             e.Graphics.DrawImage(newImage, hoeken);
+
+                float middelpunt1x = balX+(groote/2);
+                float middelpunt1y = balY+(groote/2);
+
+
         }
         public void checkMand(Mand mijnMand, Form1 mijnForm)
         {
@@ -131,5 +138,29 @@ namespace WindowsFormsApplication1
             vybal = -5;
         }
 
+        
+
+        public void checkbotsing(Bal[] ballen,int eigenNr)
+        {
+            for(int i = 0; i<ballen.Length;i++)
+            {
+                float middelpunt1x = balX+(groote/2);
+                float middelpunt1y = balY+(groote/2);
+
+                float middelpunt2x = ballen[i].balX+(ballen[i].groote/2);
+                float middelpunt2y = ballen[i].balY+(ballen[i].groote/2);
+
+
+                float afstand = (float)Math.Sqrt((float)Math.Pow(middelpunt1x-middelpunt2x,2) + Math.Pow(middelpunt1y-middelpunt2y,2));
+
+                if(afstand<(groote/2)+(ballen[i].groote/2) && eigenNr != i)
+                    {
+                    //later nog algoritme schrijvenn
+                    }
+
+
+            }
+        }
+        
     }
 }
