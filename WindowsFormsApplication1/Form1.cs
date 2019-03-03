@@ -13,6 +13,10 @@ namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
     {
+        public string Naam1 { get; set; }
+        public string Naam2 { get; set; }
+
+        
         // Create pen en ballen.
         Pen blackPen = new Pen(Color.Black, 3);
         Pen redPen = new Pen(Color.Red, 3);
@@ -26,10 +30,11 @@ namespace WindowsFormsApplication1
         Bom bom;
         Mand mand1;
         Mand mand2;
-    
 
-        public Form1()
+        public Form1(string naam1, string naam2)
         {
+            Naam1 = naam1;
+            Naam2 = naam2;
             InitializeComponent();
             this.Paint += new PaintEventHandler(mijn_paint);
 
@@ -42,13 +47,17 @@ namespace WindowsFormsApplication1
             //geen timer meer
             this.DoubleBuffered = true;
             int mandGrote = 100;
-            mand1 = new Mand(300, ClientRectangle.Height - mandGrote, 0, 0, (float)0.81, "Stino", 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, @"../../files/images/manden/mand1.png");
-            mand2 = new Mand(800, ClientRectangle.Height - mandGrote, 0, 0, (float)0.81, "Mixxamm", 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, @"../../files/images/manden/mand2.png");
+            mand1 = new Mand(300, ClientRectangle.Height - mandGrote, 0, 0, (float)0.81, Naam1, 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, @"../../files/images/manden/mand1.png");
+            mand2 = new Mand(800, ClientRectangle.Height - mandGrote, 0, 0, (float)0.81, Naam2, 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, @"../../files/images/manden/mand2.png");
 
             String[] explosions = new string[16];
             for (int i = 0; i < 16; i++)
-                explosions[i] = @"../../files/images/ballen/explosion/" + Convert.ToString(i+1) + ".gif";
+                explosions[i] = @"../../files/images/ballen/explosion/" + Convert.ToString(i + 1) + ".gif";
             bom = new Bom(300, 10, 5, 0, 40, (float)0.40, (float)0.60, (float)0.81, -10, @"../../files/sounds/grote_rekkerbalbots.wav", @"../../files/images/ballen/bom.png", explosions);
+        }
+        public Form1() : this("Speler1", "Speler2")
+        {
+            
         }
 
 
