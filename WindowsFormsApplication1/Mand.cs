@@ -24,7 +24,7 @@ namespace WindowsFormsApplication1
         float mijnSnelheidLemiet = 10;
         float mijnJumpKracht = 10;
         float mijnHorizontaleVersnelling = 5;
-        string mijnFotoMand = "textures/manden/mand1.png";
+        string mijnFotoMand = "../../files/images/manden/mand1.png";
         string naam = "no name";
         Image newImage;
 

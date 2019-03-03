@@ -19,9 +19,9 @@ namespace WindowsFormsApplication1
 
 
         Bal[] ballen = {
-            new RekkerBal(10, 10, 5, 0, 20, (float)0.81, (float)0.97, (float)0.81, "textures/ballen/kleine_rekkerbal.gif", 3, "textures/ballen/sound/grote_rekkerbalbots.wav"),
-            new RekkerBal(100, 10, 5, 0, 40, (float)0.71, (float)0.96, (float)0.81, "textures/ballen/middelgrote_rekkerbal.gif", 2, "textures/ballen/sound/grote_rekkerbalbots.wav"),
-            new RekkerBal(200, 10, 5, 0, 40, (float)0.69, (float)0.95, (float)0.81, "textures/ballen/grote_rekkerbal.gif", 1, "textures/ballen/sound/grote_rekkerbalbots.wav")};
+            new RekkerBal(10, 10, 5, 0, 20, (float)0.81, (float)0.97, (float)0.81, @"../../files/images/ballen/kleine_rekkerbal.gif", 3, @"../../files/sounds/grote_rekkerbalbots.wav"),
+            new RekkerBal(100, 10, 5, 0, 40, (float)0.71, (float)0.96, (float)0.81, @"../../files/images/ballen/middelgrote_rekkerbal.gif", 2, @"../../files/sounds/grote_rekkerbalbots.wav"),
+            new RekkerBal(200, 10, 5, 0, 40, (float)0.69, (float)0.95, (float)0.81, @"../../files/images/ballen/grote_rekkerbal.gif", 1, @"../../files/sounds/grote_rekkerbalbots.wav")};
 
         Bom bom;
         Mand mand1;
@@ -42,13 +42,13 @@ namespace WindowsFormsApplication1
             //geen timer meer
             this.DoubleBuffered = true;
             int mandGrote = 100;
-            mand1 = new Mand(300, ClientRectangle.Height - mandGrote, 0, 0, (float)0.81, "Stino", 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, "textures/manden/mand1.png");
-            mand2 = new Mand(800, ClientRectangle.Height - mandGrote, 0, 0, (float)0.81, "Mixxamm", 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, "textures/manden/mand2.png");
+            mand1 = new Mand(300, ClientRectangle.Height - mandGrote, 0, 0, (float)0.81, "Stino", 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, @"../../files/images/manden/mand1.png");
+            mand2 = new Mand(800, ClientRectangle.Height - mandGrote, 0, 0, (float)0.81, "Mixxamm", 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, @"../../files/images/manden/mand2.png");
 
             String[] explosions = new string[16];
             for (int i = 0; i < 16; i++)
-                explosions[i] = "textures/bom/explosion/" + Convert.ToString(i+1) + ".gif";
-            bom = new Bom(300, 10, 5, 0, 40, (float)0.40, (float)0.60, (float)0.81, -10, "textures/ballen/sound/grote_rekkerbalbots.wav", "textures/bom/bom.png", explosions);
+                explosions[i] = @"../../files/images/ballen/explosion/" + Convert.ToString(i+1) + ".gif";
+            bom = new Bom(300, 10, 5, 0, 40, (float)0.40, (float)0.60, (float)0.81, -10, @"../../files/sounds/grote_rekkerbalbots.wav", @"../../files/images/ballen/bom.png", explosions);
         }
 
 
