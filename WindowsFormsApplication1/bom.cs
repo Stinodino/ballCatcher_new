@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
+using System.Threading;
 
 namespace WindowsFormsApplication1
 {
@@ -14,6 +16,7 @@ namespace WindowsFormsApplication1
     {
         int aftellerExplotie = 250;
         Image[] explosions;
+        public SoundPlayer OmplofSpeler { get; set; }
 
         public Bom(float startX,
           float startY,
@@ -35,10 +38,12 @@ namespace WindowsFormsApplication1
             {
                 explosions[i] = Image.FromFile(fotoExplosies[i]);
             }
+            OmplofSpeler = new SoundPlayer(@"../../files/sounds/bom.wav");
+            OmplofSpeler.Load();
         }
 
 
-        public override void teken(Pen onzePen, PaintEventArgs e)
+        public override void Teken(Pen onzePen, PaintEventArgs e)
         {
             Point ulCorner = new Point(Convert.ToInt32(balX), Convert.ToInt32(balY));
             Point urCorner = new Point(Convert.ToInt32(balX) + groote, Convert.ToInt32(balY));
@@ -65,20 +70,22 @@ namespace WindowsFormsApplication1
                 if (aftellerExplotie > 17)
                 {
                     mijnMand.addPoint(mijnWaarde);
-                    omplof();
+                    Omplof();
                 }
             }
         }
 
 
-        public void omplof()
+        public void Omplof()
         {
             aftellerExplotie = 17;
+            Thread geluid = new Thread(() => Bal.SpeelGeluid(OmplofSpeler));
+            geluid.Start();
         }
 
         public void respawn()
         {
-            base.respawn();
+            base.Respawn();
             aftellerExplotie = 250;
         }
     }

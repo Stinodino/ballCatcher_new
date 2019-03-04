@@ -34,18 +34,18 @@ namespace WindowsFormsApplication1
 
 
 
-        public RekkerBal(float startX, 
-            float startY,  
-            float startVX, 
-            float startVY, 
-            int startgroote, 
-            float balwrijving, 
+        public RekkerBal(float startX,
+            float startY,
+            float startVX,
+            float startVY,
+            int startgroote,
+            float balwrijving,
             float balwrijvingbodem,
             float zwaarteKracht,
             string fotoBal,
             int waarde,
             string soundDirecotry
-            ) : base(startX, startY, startVX, startVY, startgroote, balwrijving, balwrijvingbodem, zwaarteKracht, fotoBal, waarde,soundDirecotry)
+            ) : base(startX, startY, startVX, startVY, startgroote, balwrijving, balwrijvingbodem, zwaarteKracht, fotoBal, waarde, soundDirecotry)
 
         {
             balX = startX;

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Media;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Media;
 
 namespace WindowsFormsApplication1
 {
@@ -19,7 +21,7 @@ namespace WindowsFormsApplication1
     {
         public float balX = 0;
         public float balY = 0;
-        protected float vxbal = (float)0;
+        protected float vxbal = 0;
         protected float vybal = 0;
         protected int groote = 10;
         protected float wrijving;
@@ -29,7 +31,8 @@ namespace WindowsFormsApplication1
         protected Random rnd;
         protected float mijnZwaarteKracht = (float)0.81;
         protected Image newImage;
-        protected SoundPlayer botser;
+        public SoundPlayer Botser { get; set; }
+        public Thread Geluid { get; set; }
 
 
 
@@ -60,11 +63,17 @@ namespace WindowsFormsApplication1
             rnd = new Random();
             mijnZwaarteKracht = zwaarteKracht;
             newImage = Image.FromFile(fotoBal);
-            botser = new SoundPlayer(soundDirecotry);
+            Botser = new SoundPlayer(soundDirecotry);
+            Botser.Load();
         }
 
 
-        public void beweeg(Game mijnform)
+        public static void SpeelGeluid(SoundPlayer s)
+        {
+            s.Play();
+        }
+
+        public void Beweeg(Game mijnform)
         {
             // wekker loopt af
             // pas de positie van de bal aan
@@ -83,8 +92,12 @@ namespace WindowsFormsApplication1
                 vybal = -vybal * wrijving;
 
                 vxbal = vxbal * wrijvingbodem;
-                if(Math.Abs(vybal) > 1)
-                    botser.Play();
+                if (Math.Abs(vybal) > 1)
+                {
+                    Geluid = new Thread(() => SpeelGeluid(Botser));
+                    Geluid.Start();
+                }
+
             }
             if (balX > mijnform.ClientRectangle.Width - groote)
             {
@@ -101,12 +114,12 @@ namespace WindowsFormsApplication1
             }
         }
 
-        public void valNu()
+        public void ValNu()
         {
             val = true;
         }
 
-        public virtual void teken(Pen onzePen, PaintEventArgs e)
+        public virtual void Teken(Pen onzePen, PaintEventArgs e)
         {
             // Rectangle rect = new Rectangle(Convert.ToInt32(balX), Convert.ToInt32(balY), groote, groote);
             // e.Graphics.DrawEllipse(onzePen, rect);
@@ -116,51 +129,51 @@ namespace WindowsFormsApplication1
             Point[] hoeken = { ulCorner, urCorner, llCorner };
             e.Graphics.DrawImage(newImage, hoeken);
 
-                float middelpunt1x = balX+(groote/2);
-                float middelpunt1y = balY+(groote/2);
+            float middelpunt1x = balX + (groote / 2);
+            float middelpunt1y = balY + (groote / 2);
 
 
         }
-        public void checkMand(Mand mijnMand, Game mijnForm)
+        public void CheckMand(Mand mijnMand, Game mijnForm)
         {
             if (((mijnMand.mijnXMand < balX) && (balX < mijnMand.mijnXMand + 100)) && (((mijnMand.mijnYMand < balY) && (balY < mijnMand.mijnYMand + 100))))
             {
                 // bal of bom in in mand
                 mijnMand.addPoint(mijnWaarde);
-                respawn();
+                Respawn();
             }
         }
-        public void respawn()
+        public void Respawn()
         {
-            balX = 25;
-            balY = 101;
-            vxbal = rnd.Next(1, 50);
+            balX = 750;
+            balY = 100;
+            vxbal = rnd.Next(-70, 70);
             vybal = -5;
         }
 
-        
 
-        public void checkbotsing(Bal[] ballen,int eigenNr)
+
+        public void CheckBotsing(Bal[] ballen, int eigenNr)
         {
-            for(int i = 0; i<ballen.Length;i++)
+            for (int i = 0; i < ballen.Length; i++)
             {
-                float middelpunt1x = balX+(groote/2);
-                float middelpunt1y = balY+(groote/2);
+                float middelpunt1x = balX + (groote / 2);
+                float middelpunt1y = balY + (groote / 2);
 
-                float middelpunt2x = ballen[i].balX+(ballen[i].groote/2);
-                float middelpunt2y = ballen[i].balY+(ballen[i].groote/2);
+                float middelpunt2x = ballen[i].balX + (ballen[i].groote / 2);
+                float middelpunt2y = ballen[i].balY + (ballen[i].groote / 2);
 
 
-                float afstand = (float)Math.Sqrt((float)Math.Pow(middelpunt1x-middelpunt2x,2) + Math.Pow(middelpunt1y-middelpunt2y,2));
+                float afstand = (float)Math.Sqrt((float)Math.Pow(middelpunt1x - middelpunt2x, 2) + Math.Pow(middelpunt1y - middelpunt2y, 2));
 
-                if(afstand<(groote/2)+(ballen[i].groote/2) && eigenNr != i)
-                    {
+                if (afstand < (groote / 2) + (ballen[i].groote / 2) && eigenNr != i)
+                {
                     //later nog algoritme schrijvenn
-                    }
+                }
 
 
             }
         }
-        
+
     }
 }

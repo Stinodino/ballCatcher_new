@@ -34,6 +34,7 @@
             this.labelSpeler1 = new System.Windows.Forms.Label();
             this.labelSpeler2 = new System.Windows.Forms.Label();
             this.buttonStart = new System.Windows.Forms.Button();
+            this.labelControls = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBoxNaam1
@@ -78,11 +79,20 @@
             this.buttonStart.UseVisualStyleBackColor = true;
             this.buttonStart.Click += new System.EventHandler(this.ButtonStart_Click);
             // 
+            // labelControls
+            // 
+            this.labelControls.AutoSize = true;
+            this.labelControls.Location = new System.Drawing.Point(90, 243);
+            this.labelControls.Name = "labelControls";
+            this.labelControls.Size = new System.Drawing.Size(0, 20);
+            this.labelControls.TabIndex = 5;
+            // 
             // Start
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(560, 387);
+            this.Controls.Add(this.labelControls);
             this.Controls.Add(this.buttonStart);
             this.Controls.Add(this.labelSpeler2);
             this.Controls.Add(this.labelSpeler1);
@@ -103,5 +113,6 @@
         private System.Windows.Forms.Label labelSpeler1;
         private System.Windows.Forms.Label labelSpeler2;
         private System.Windows.Forms.Button buttonStart;
+        private System.Windows.Forms.Label labelControls;
     }
 }

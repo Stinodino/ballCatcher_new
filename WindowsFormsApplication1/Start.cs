@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Input;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -33,5 +34,18 @@ namespace WindowsFormsApplication1
             form.Show();
             this.Hide();
         }
+
+        //public Keys[] VraagControls(string naam)
+        //{
+        //    Keys[] result = new Keys[4];
+        //    labelControls.Text = $"Geef de knop om naar rechts te gaan voor {naam}";
+        //    result[0] = GeefInput();
+        //}
+
+        //private Keys GeefInput()
+        //{
+
+        //}
+
     }
 }
