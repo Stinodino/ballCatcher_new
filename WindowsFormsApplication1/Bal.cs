@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
+using System.Windows.Media;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,8 +32,8 @@ namespace WindowsFormsApplication1
         protected Random rnd;
         protected float mijnZwaarteKracht = (float)0.81;
         protected Image newImage;
-        public SoundPlayer Botser { get; set; }
-        public Thread Geluid { get; set; }
+        public MediaPlayer Botser { get; set; }
+        public Uri SoundDirectory { get; set; }
 
 
 
@@ -63,15 +64,10 @@ namespace WindowsFormsApplication1
             rnd = new Random();
             mijnZwaarteKracht = zwaarteKracht;
             newImage = Image.FromFile(fotoBal);
-            Botser = new SoundPlayer(soundDirecotry);
-            Botser.Load();
+            Botser = new MediaPlayer();
+            SoundDirectory = new Uri(soundDirecotry, UriKind.Relative);
         }
 
-
-        public static void SpeelGeluid(SoundPlayer s)
-        {
-            s.Play();
-        }
 
         public void Beweeg(Game mijnform)
         {
@@ -94,8 +90,9 @@ namespace WindowsFormsApplication1
                 vxbal = vxbal * wrijvingbodem;
                 if (Math.Abs(vybal) > 1)
                 {
-                    Geluid = new Thread(() => SpeelGeluid(Botser));
-                    Geluid.Start();
+                    Botser.Open(SoundDirectory);
+                    Botser.Play();
+                    //Geluid.Start();
                 }
 
             }
@@ -119,7 +116,7 @@ namespace WindowsFormsApplication1
             val = true;
         }
 
-        public virtual void Teken(Pen onzePen, PaintEventArgs e)
+        public virtual void Teken(System.Drawing.Pen onzePen, PaintEventArgs e)
         {
             // Rectangle rect = new Rectangle(Convert.ToInt32(balX), Convert.ToInt32(balY), groote, groote);
             // e.Graphics.DrawEllipse(onzePen, rect);
@@ -134,7 +131,7 @@ namespace WindowsFormsApplication1
 
 
         }
-        public void CheckMand(Mand mijnMand, Game mijnForm)
+        public virtual void CheckMand(Mand mijnMand, Game mijnForm)
         {
             if (((mijnMand.mijnXMand < balX) && (balX < mijnMand.mijnXMand + 100)) && (((mijnMand.mijnYMand < balY) && (balY < mijnMand.mijnYMand + 100))))
             {
@@ -143,9 +140,9 @@ namespace WindowsFormsApplication1
                 Respawn();
             }
         }
-        public void Respawn()
+        public virtual void Respawn()
         {
-            balX = 750;
+            balX = rnd.Next(100,1400);
             balY = 100;
             vxbal = rnd.Next(-70, 70);
             vybal = -5;

@@ -9,14 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
 using System.Threading;
+using System.Windows.Media;
 
 namespace WindowsFormsApplication1
 {
     public class Bom: Bal
     {
-        int aftellerExplotie = 250;
+        int aftellerExplosie = 250;
         Image[] explosions;
-        public SoundPlayer OmplofSpeler { get; set; }
+        public MediaPlayer OmplofSpeler { get; set; }
 
         public Bom(float startX,
           float startY,
@@ -38,55 +39,57 @@ namespace WindowsFormsApplication1
             {
                 explosions[i] = Image.FromFile(fotoExplosies[i]);
             }
-            OmplofSpeler = new SoundPlayer(@"../../files/sounds/bom.wav");
-            OmplofSpeler.Load();
+            OmplofSpeler = new MediaPlayer();
         }
 
 
-        public override void Teken(Pen onzePen, PaintEventArgs e)
+        public override void Teken(System.Drawing.Pen onzePen, PaintEventArgs e)
         {
             Point ulCorner = new Point(Convert.ToInt32(balX), Convert.ToInt32(balY));
             Point urCorner = new Point(Convert.ToInt32(balX) + groote, Convert.ToInt32(balY));
             Point llCorner = new Point(Convert.ToInt32(balX), Convert.ToInt32(balY) + groote);
             Point[] hoeken = { ulCorner, urCorner, llCorner };
 
-            aftellerExplotie = aftellerExplotie - 1;
+            aftellerExplosie = aftellerExplosie - 1;
 
-            if(aftellerExplotie>-1 && aftellerExplotie < explosions.Length)
-                e.Graphics.DrawImage(explosions[aftellerExplotie], hoeken);
+            if (aftellerExplosie > -1 && aftellerExplosie == explosions.Length)
+                Omplof(false);
+            else if (aftellerExplosie > -1 && aftellerExplosie < explosions.Length)
+                e.Graphics.DrawImage(explosions[aftellerExplosie], hoeken);
             else
-            if (aftellerExplotie < 1)
-                respawn();
+            if (aftellerExplosie < 1)
+                Respawn();
             else
                 e.Graphics.DrawImage(newImage, hoeken);
         }
 
 
-        public void checkMand(Mand mijnMand, Game mijnForm)
+        public override void CheckMand(Mand mijnMand, Game mijnForm)
         {
             int ymand = mijnForm.ClientRectangle.Height - mijnMand.mijnGrote;
             if ((mijnMand.mijnXMand < balX + groote) && ((mijnMand.mijnXMand + mijnMand.mijnGrote > balX) && ((mijnMand.mijnYMand < balY + groote) && (mijnMand.mijnYMand + mijnMand.mijnGrote > balY))))   //test test in mand
             {
-                if (aftellerExplotie > 17)
+                if (aftellerExplosie > 17)
                 {
                     mijnMand.addPoint(mijnWaarde);
-                    Omplof();
+                    Omplof(true);
                 }
             }
         }
 
 
-        public void Omplof()
+        public void Omplof(bool zetTeller)
         {
-            aftellerExplotie = 17;
-            Thread geluid = new Thread(() => Bal.SpeelGeluid(OmplofSpeler));
-            geluid.Start();
+            if(zetTeller)
+                aftellerExplosie = 17;
+            OmplofSpeler.Open(new Uri(@"../../files/sounds/bom.wav", UriKind.Relative));
+            OmplofSpeler.Play();
         }
 
-        public void respawn()
+        public override void Respawn()
         {
             base.Respawn();
-            aftellerExplotie = 250;
+            aftellerExplosie = 250;
         }
     }
 }

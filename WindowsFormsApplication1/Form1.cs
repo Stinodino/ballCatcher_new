@@ -23,8 +23,8 @@ namespace WindowsFormsApplication1
         private Pen blackPen = new Pen(Color.Black, 3);
         private Pen redPen = new Pen(Color.Red, 3);
         private Bal[] ballen = {
-            new RekkerBal(10, 10, 5, 0, 20, (float)0.81, (float)0.97, (float)0.81, @"../../files/images/ballen/kleine_rekkerbal.gif", 3, @"../../files/sounds/grote_rekkerbalbots.wav"),
-            new RekkerBal(100, 10, 5, 0, 40, (float)0.71, (float)0.96, (float)0.81, @"../../files/images/ballen/middelgrote_rekkerbal.gif", 2, @"../../files/sounds/grote_rekkerbalbots.wav"),
+            new RekkerBal(10, 10, 5, 0, 20, (float)0.81, (float)0.97, (float)0.81, @"../../files/images/ballen/kleine_rekkerbal.gif", 3, @"../../files/sounds/kleine_rekkerbalbots.wav"),
+            new RekkerBal(100, 10, 5, 0, 40, (float)0.71, (float)0.96, (float)0.81, @"../../files/images/ballen/middelgrote_rekkerbal.gif", 2, @"../../files/sounds/middelgrote_rekkerbalbots.wav"),
             new RekkerBal(200, 10, 5, 0, 40, (float)0.69, (float)0.95, (float)0.81, @"../../files/images/ballen/grote_rekkerbal.gif", 1, @"../../files/sounds/grote_rekkerbalbots.wav")};
         private Bom bom;
         private Mand mand1;
@@ -72,8 +72,8 @@ namespace WindowsFormsApplication1
             }
 
             bom.Beweeg(this);
-            bom.checkMand(mand1, this);
-            bom.checkMand(mand2, this);
+            bom.CheckMand(mand1, this);
+            bom.CheckMand(mand2, this);
             mand1.beweeg(this);
             mand2.beweeg(this);
             //kleineBal.checkbotsing();
