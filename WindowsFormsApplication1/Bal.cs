@@ -6,11 +6,11 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
-using System.Windows.Media;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
 
 namespace WindowsFormsApplication1
 {
@@ -142,7 +142,7 @@ namespace WindowsFormsApplication1
         }
         public virtual void Respawn()
         {
-            balX = rnd.Next(100,1400);
+            balX = rnd.Next(100, 1400);
             balY = 100;
             vxbal = rnd.Next(-70, 70);
             vybal = -5;
@@ -165,12 +165,36 @@ namespace WindowsFormsApplication1
 
                 if (afstand < (groote / 2) + (ballen[i].groote / 2) && eigenNr != i)
                 {
-                    //later nog algoritme schrijvenn
+
+                    //ricoTan berekenen
+                    float ricoTan;
+                    if (middelpunt1y - middelpunt2y == 0)
+                        ricoTan = 1000000000;
+                    else
+                        ricoTan = (middelpunt1x - middelpunt2x) / (middelpunt1y - middelpunt2y);
+
+                    //ricoNorm berekenen
+                    float ricoNorm = -1 / ricoTan;
+
+                    //vNorm1 en vTan1 berekenen
+                    float hoek = (float)Math.Atan2(ricoNorm, ricoTan);//is juist???
+                    float vtot1 = (float)Math.Sqrt(Math.Pow(vxbal, 2) + Math.Pow(vybal, 2));
+                    float vNorm1 = vtot1 * (float)Math.Cos(hoek);
+                    float vtan1 = vtot1 * (float)Math.Sin(hoek);
+
+                    //vNorm2 en vTan2 berekenen
+                    float vtot2 = (float)Math.Sqrt(Math.Pow(ballen[i].vxbal, 2) + Math.Pow(ballen[i].vybal, 2));
+                    float vNorm2 = vtot2 * (float)Math.Cos(hoek);
+                    float vtan2 = vtot2 * (float)Math.Sin(hoek);
+
+                    //e berekenen
+                    float wrijvingtot = (wrijving + ballen[i].wrijving) / 2;
+
+                    float vNorm1Na = (groote * vNorm1 + ballen[i].groote * vNorm2 - ballen[i].groote * wrijvingtot * (vNorm1 - vNorm2)) / (groote + ballen[i].groote);
+                    float vNorm2Na = wrijvingtot * (vNorm1 - vNorm2) + vNorm1Na;
+
                 }
-
-
             }
         }
-
     }
 }
