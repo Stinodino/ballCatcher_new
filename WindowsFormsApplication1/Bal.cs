@@ -165,7 +165,6 @@ namespace WindowsFormsApplication1
 
                 if (afstand < (groote / 2) + (ballen[i].groote / 2) && eigenNr != i)
                 {
-
                     //ricoTan berekenen
                     float ricoTan;
                     if (middelpunt1y - middelpunt2y == 0)
@@ -176,8 +175,58 @@ namespace WindowsFormsApplication1
                     //ricoNorm berekenen
                     float ricoNorm = -1 / ricoTan;
 
-                    //vNorm1 en vTan1 berekenen
-                    float hoek = (float)Math.Atan2(ricoNorm, ricoTan);//is juist???
+                    //ballen uit elkaar zetten
+                    float middelpuntBallenX = (balX + ballen[i].balX) / 2;
+                    float middelpuntBallenY = (balY + ballen[i].balY) / 2;
+
+                    if (middelpunt1x >= middelpunt2x && middelpunt1y >= middelpunt2y)
+                    {
+                        //bal1 rechts onder
+                        middelpunt1x = middelpuntBallenX + (afstand / 2);
+                        middelpunt1y = middelpuntBallenY + (afstand / 2);
+                        middelpunt1x = middelpuntBallenX - (afstand / 2);
+                        middelpunt1y = middelpuntBallenY - (afstand / 2);
+                    }
+                    else if (middelpunt1x <= middelpunt2x && middelpunt1y >= middelpunt2y)
+                    {
+                        //bal1 links onder
+                        middelpunt1x = middelpuntBallenX - (afstand / 2);
+                        middelpunt1y = middelpuntBallenY + (afstand / 2);
+                        middelpunt1x = middelpuntBallenX + (afstand / 2);
+                        middelpunt1y = middelpuntBallenY - (afstand / 2);
+                    }
+                    else if (middelpunt1x <= middelpunt2x && middelpunt1y <= middelpunt2y)
+                    {
+                        //bal1 links boven
+                        middelpunt1x = middelpuntBallenX - (afstand / 2);
+                        middelpunt1y = middelpuntBallenY - (afstand / 2);
+                        middelpunt1x = middelpuntBallenX + (afstand / 2);
+                        middelpunt1y = middelpuntBallenY + (afstand / 2);
+                    }
+                    else
+                    {
+                        //bal1 links onder
+                        middelpunt1x = middelpuntBallenX - (afstand / 2);
+                        middelpunt1y = middelpuntBallenY + (afstand / 2);
+                        middelpunt1x = middelpuntBallenX + (afstand / 2);
+                        middelpunt1y = middelpuntBallenY - (afstand / 2);
+                    }
+
+                    //balX = mi
+
+
+
+                    //snelheden omvormen naar ander assenstelsel
+                    float hoek = (float)Math.Atan(ricoNorm);
+
+                    float vNorm1 = vxbal * (float)Math.Cos(hoek) + vybal * (float)Math.Sin(hoek);
+                    float vtan1 = vybal * (float)Math.Cos(hoek) + vxbal * (float)Math.Sin(hoek);
+
+                    float vNorm2 = ballen[i].vxbal * (float)Math.Cos(hoek) + ballen[i].vybal * (float)Math.Sin(hoek);
+                    float vtan2 = ballen[i].vybal * (float)Math.Cos(hoek) + ballen[i].vxbal * (float)Math.Sin(hoek);
+
+                    /*
+                    //snelheden omvormen naar ander assenstelsel
                     float vtot1 = (float)Math.Sqrt(Math.Pow(vxbal, 2) + Math.Pow(vybal, 2));
                     float vNorm1 = vtot1 * (float)Math.Cos(hoek);
                     float vtan1 = vtot1 * (float)Math.Sin(hoek);
@@ -186,12 +235,21 @@ namespace WindowsFormsApplication1
                     float vtot2 = (float)Math.Sqrt(Math.Pow(ballen[i].vxbal, 2) + Math.Pow(ballen[i].vybal, 2));
                     float vNorm2 = vtot2 * (float)Math.Cos(hoek);
                     float vtan2 = vtot2 * (float)Math.Sin(hoek);
+                    */
 
                     //e berekenen
                     float wrijvingtot = (wrijving + ballen[i].wrijving) / 2;
 
+                    //snelheden na de botsing berekenen
                     float vNorm1Na = (groote * vNorm1 + ballen[i].groote * vNorm2 - ballen[i].groote * wrijvingtot * (vNorm1 - vNorm2)) / (groote + ballen[i].groote);
                     float vNorm2Na = wrijvingtot * (vNorm1 - vNorm2) + vNorm1Na;
+
+                    //omvormen van assenstelsel
+                    vxbal = vNorm1Na * (float)Math.Cos(hoek) + vtan1 * (float)Math.Cos(hoek);
+                    vybal = vtan1 * (float)Math.Cos(hoek) + vtan1 * (float)Math.Cos(hoek);
+                    ballen[i].vxbal = vNorm2Na * (float)Math.Cos(hoek) + vtan2 * (float)Math.Cos(hoek);
+                    ballen[i].vybal = vtan2 * (float)Math.Cos(hoek) + vtan2 * (float)Math.Cos(hoek);
+
 
                 }
             }
