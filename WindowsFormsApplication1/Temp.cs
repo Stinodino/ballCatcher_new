@@ -24,8 +24,9 @@ namespace WindowsFormsApplication1
 
     public class Bal
     {
-        float balX = 0;
+        public float BalX { get; set; }
         float balY = 0;
+
         float vxbal = (float)0;
         float vybal = 0;
         int groote = 10;
@@ -34,7 +35,7 @@ namespace WindowsFormsApplication1
         
         public Bal(float startX,float startY,float startVX,float startVY,int startgroote,float balwrijving)
         {
-            balX = startX;
+            BalX = startX;
             balY = startY;
             vxbal = startVX;
             vybal = startVY;
@@ -52,7 +53,7 @@ namespace WindowsFormsApplication1
                 vybal = vybal + (float)0.1;
             
             balY = balY + vybal;
-            balX = balX + vxbal;
+            BalX = BalX + vxbal;
 
             if (balY > mijnform.ClientRectangle.Height - groote)
             {
@@ -61,16 +62,16 @@ namespace WindowsFormsApplication1
 
                 vxbal = vxbal * (float)wrijving;
             }
-            if (balX > mijnform.ClientRectangle.Width - groote)
+            if (BalX > mijnform.ClientRectangle.Width - groote)
             {
 
-                balX = mijnform.ClientRectangle.Width - groote;
+                BalX = mijnform.ClientRectangle.Width - groote;
                 vxbal = -vxbal * (float)wrijving;
                 vybal = vybal * (float)wrijving;
             }
-            if (balX < 0)
+            if (BalX < 0)
             {
-                balX = 0;
+                BalX = 0;
                 vxbal = -vxbal * (float)wrijving;
                 vybal = vybal * (float)wrijving;
             }
@@ -85,7 +86,7 @@ namespace WindowsFormsApplication1
 
         public void teken(Pen onzePen, PaintEventArgs e)
         {
-            Rectangle rect = new Rectangle(Convert.ToInt32(balX), Convert.ToInt32(balY), groote, groote);
+            Rectangle rect = new Rectangle(Convert.ToInt32(BalX), Convert.ToInt32(balY), groote, groote);
             e.Graphics.DrawEllipse(onzePen, rect);
         }
     }

@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Media;
+using System.Windows.Media;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Media;
 
 namespace WindowsFormsApplication1
 {
@@ -19,7 +22,7 @@ namespace WindowsFormsApplication1
     {
         public float balX = 0;
         public float balY = 0;
-        protected float vxbal = (float)0;
+        protected float vxbal = 0;
         protected float vybal = 0;
         protected int groote = 10;
         protected float wrijving;
@@ -29,7 +32,8 @@ namespace WindowsFormsApplication1
         protected Random rnd;
         protected float mijnZwaarteKracht = (float)0.81;
         protected Image newImage;
-        protected SoundPlayer botser;
+        public MediaPlayer Botser { get; set; }
+        public Uri SoundDirectory { get; set; }
 
 
 
@@ -60,11 +64,12 @@ namespace WindowsFormsApplication1
             rnd = new Random();
             mijnZwaarteKracht = zwaarteKracht;
             newImage = Image.FromFile(fotoBal);
-            botser = new SoundPlayer(soundDirecotry);
+            Botser = new MediaPlayer();
+            SoundDirectory = new Uri(soundDirecotry, UriKind.Relative);
         }
 
 
-        public void beweeg(Form1 mijnform)
+        public void Beweeg(Game mijnform)
         {
             // wekker loopt af
             // pas de positie van de bal aan
@@ -82,9 +87,14 @@ namespace WindowsFormsApplication1
                 balY = mijnform.ClientRectangle.Height - groote;
                 vybal = -vybal * wrijving;
 
-                vxbal = vxbal * wrijvingbodem;//anders gaat de bal eeuwig blijven rollen. moet later weg
-                if(Math.Abs(vybal) > 1)
-                    botser.Play();
+                vxbal = vxbal * wrijvingbodem;
+                if (Math.Abs(vybal) > 1)
+                {
+                    Botser.Open(SoundDirectory);
+                    Botser.Play();
+                    //Geluid.Start();
+                }
+
             }
             if (balX > mijnform.ClientRectangle.Width - groote)
             {
@@ -101,89 +111,66 @@ namespace WindowsFormsApplication1
             }
         }
 
-        public void valNu()
+        public void ValNu()
         {
             val = true;
         }
 
-        public virtual void teken(Pen onzePen, PaintEventArgs e)
+        public virtual void Teken(System.Drawing.Pen onzePen, PaintEventArgs e)
         {
+            // Rectangle rect = new Rectangle(Convert.ToInt32(balX), Convert.ToInt32(balY), groote, groote);
+            // e.Graphics.DrawEllipse(onzePen, rect);
             Point ulCorner = new Point(Convert.ToInt32(balX), Convert.ToInt32(balY));
             Point urCorner = new Point(Convert.ToInt32(balX) + groote, Convert.ToInt32(balY));
             Point llCorner = new Point(Convert.ToInt32(balX), Convert.ToInt32(balY) + groote);
             Point[] hoeken = { ulCorner, urCorner, llCorner };
             e.Graphics.DrawImage(newImage, hoeken);
 
-                float middelpunt1x = balX+(groote/2);
-                float middelpunt1y = balY+(groote/2);
+            float middelpunt1x = balX + (groote / 2);
+            float middelpunt1y = balY + (groote / 2);
 
 
         }
-        public void checkMand(Mand mijnMand, Form1 mijnForm)
+        public virtual void CheckMand(Mand mijnMand, Game mijnForm)
         {
             if (((mijnMand.mijnXMand < balX) && (balX < mijnMand.mijnXMand + 100)) && (((mijnMand.mijnYMand < balY) && (balY < mijnMand.mijnYMand + 100))))
             {
                 // bal of bom in in mand
                 mijnMand.addPoint(mijnWaarde);
-                respawn();
+                Respawn();
             }
         }
-        public void respawn()
+        public virtual void Respawn()
         {
-            balX = 25;
-            balY = 101;
-            vxbal = rnd.Next(1, 50);
+            balX = rnd.Next(100,1400);
+            balY = 100;
+            vxbal = rnd.Next(-70, 70);
             vybal = -5;
         }
 
-        
 
-        public void checkbotsing(Bal[] ballen,int eigenNr)
+
+        public void CheckBotsing(Bal[] ballen, int eigenNr)
         {
-            for(int i = 0; i<ballen.Length;i++)
+            for (int i = 0; i < ballen.Length; i++)
             {
-                float middelpunt1x = balX+(groote/2);
-                float middelpunt1y = balY+(groote/2);
+                float middelpunt1x = balX + (groote / 2);
+                float middelpunt1y = balY + (groote / 2);
 
-                float middelpunt2x = ballen[i].balX+(ballen[i].groote/2);
-                float middelpunt2y = ballen[i].balY+(ballen[i].groote/2);
+                float middelpunt2x = ballen[i].balX + (ballen[i].groote / 2);
+                float middelpunt2y = ballen[i].balY + (ballen[i].groote / 2);
 
 
-                float afstand = (float)Math.Sqrt((float)Math.Pow(middelpunt1x-middelpunt2x,2) + Math.Pow(middelpunt1y-middelpunt2y,2));
+                float afstand = (float)Math.Sqrt((float)Math.Pow(middelpunt1x - middelpunt2x, 2) + Math.Pow(middelpunt1y - middelpunt2y, 2));
 
-                if(afstand<(groote/2)+(ballen[i].groote/2) && eigenNr != i)
+                if (afstand < (groote / 2) + (ballen[i].groote / 2) && eigenNr != i)
                 {
-
-                    //ricoTan berekenen
-                    float ricoTan;
-                    if(middelpunt1y-middelpunt2y == 0)
-                        ricoTan = 1000000000;
-                    else
-                        ricoTan = (middelpunt1x-middelpunt2x)/(middelpunt1y-middelpunt2y);
-
-                    //ricoNorm berekenen
-                    float ricoNorm = -1/ricoTan;
-                    
-                    //vNorm1 en vTan1 berekenen
-                    float hoek = (float)Math.Atan2(ricoNorm,ricoTan);//is juist???
-                    float vtot1 = (float)Math.Sqrt(Math.Pow(vxbal,2)+Math.Pow(vybal,2));
-                    float vNorm1 = vtot1 * (float)Math.Cos((float)hoek);
-                    float vtan1 = vtot1 * (float)Math.Sin((float)hoek);
-                    
-                    //vNorm2 en vTan2 berekenen
-                    float vtot2 = (float)Math.Sqrt(Math.Pow(ballen[i].vxbal,2)+Math.Pow(ballen[i].vybal,2));
-                    float vNorm2 = vtot2 * (float)Math.Cos((float)hoek);
-                    float vtan2 = vtot2 * (float)Math.Sin((float)hoek);
-
-                    //e berekenen
-                    float wrijvingtot = (wrijving + ballen[i].wrijving)/2;
-                    
-                    float vNorm1Na = (groote*vNorm1 + ballen[i].groote*vNorm2 - ballen[i].groote*wrijvingtot*(vNorm1-vNorm2))/(groote+ballen[i].groote);
-                    float vNorm2Na = wrijvingtot*(vNorm1-vNorm2)+vNorm1Na;
-
-
+                    //later nog algoritme schrijvenn
                 }
+
+
             }
         }
+
     }
 }
