@@ -17,7 +17,7 @@ namespace WindowsFormsApplication1
         float mijnVXMand = 0;
         float mijnVYMand = 0;
         float mijnZwaarteKracht = (float) 0.81;
-        int punten = 0;
+        public int Punten { get; set; }
         public int mijnGrote;
         float mijngroteWrijving = 0;
         float mijnkleineWrijving = 0;
@@ -39,7 +39,7 @@ namespace WindowsFormsApplication1
             mijnkleineWrijving = kleineWrijving;
             mijnFotoMand = foto;
             naam = speler;
-            punten = mijnPunten;
+            Punten = mijnPunten;
             mijnGrote = startGrote;
             mijnJumpKracht = jumpKracht;
             mijnSnelheidLemiet = snelheidLemiet;
@@ -83,12 +83,12 @@ namespace WindowsFormsApplication1
             e.Graphics.DrawImage(newImage, hoeken);
             Graphics g = e.Graphics;
             g.DrawString(naam, new Font("Verdana",12), new SolidBrush (Color.White), mijnXMand + 10, mijnYMand + 40);
-            g.DrawString(Convert.ToString(punten), new Font("Verdana", 12), new SolidBrush(Color.White), mijnXMand + 30, mijnYMand + 60);
+            g.DrawString(Convert.ToString(Punten), new Font("Verdana", 12), new SolidBrush(Color.White), mijnXMand + 30, mijnYMand + 60);
         }
 
         public void addPoint(int waarde)
         {
-            punten = punten + waarde;
+            Punten = Punten + waarde;
         }
 
 

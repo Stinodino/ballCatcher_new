@@ -13,6 +13,7 @@ namespace WindowsFormsApplication1
 {
     public partial class Game : Form
     {
+        Random random = new Random();
         public string Naam1 { get; set; }
         public string Naam2 { get; set; }
 
@@ -29,6 +30,9 @@ namespace WindowsFormsApplication1
         private Bom bom;
         private Mand mand1;
         private Mand mand2;
+        string[] explosions;
+
+        private static List<Bom> bomLijst = new List<Bom>();
 
         public Game(string naam1, string naam2)
         {
@@ -51,7 +55,7 @@ namespace WindowsFormsApplication1
             mand1 = new Mand(300, ClientRectangle.Height - mandGrote, 0, 0, (float)0.81, Naam1, 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, @"../../files/images/manden/mand1.png");
             mand2 = new Mand(800, ClientRectangle.Height - mandGrote, 0, 0, (float)0.81, Naam2, 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, @"../../files/images/manden/mand2.png");
 
-            string[] explosions = new string[16];
+            explosions = new string[16];
             for (int i = 0; i < 16; i++)
                 explosions[i] = @"../../files/images/ballen/explosion/" + Convert.ToString(i + 1) + ".gif";
             bom = new Bom(300, 10, 5, 0, 40, (float)0.40, (float)0.60, (float)0.81, -10, @"../../files/sounds/grote_rekkerbalbots.wav", @"../../files/images/ballen/bom.png", explosions);
@@ -76,6 +80,25 @@ namespace WindowsFormsApplication1
             bom.CheckMand(mand2, this);
             mand1.beweeg(this);
             mand2.beweeg(this);
+
+            int bomRegen = random.Next(0, 350);
+            if (bomRegen == 1 && bomLijst.Count() == 0)
+            {
+                for (int i = 0; i < random.Next(1, 50); i++)
+                    bomLijst.Add(new Bom(300, 10, 5, 0, 40, (float)0.40, (float)0.60, (float)0.81, -10, @"../../files/sounds/grote_rekkerbalbots.wav", @"../../files/images/ballen/bom.png", explosions));
+                foreach (Bom bom in bomLijst)
+                {
+                    bom.Respawn();
+                    bom.ValNu();
+                }
+                    
+            }
+            foreach (Bom bom in bomLijst)
+            {
+                bom.Beweeg(this);
+                bom.CheckMand(mand1, this);
+                bom.CheckMand(mand2, this);
+            }
             //kleineBal.checkbotsing();
 
             for (int i = 0; i < ballen.Length; i++)
@@ -88,7 +111,15 @@ namespace WindowsFormsApplication1
             Invalidate();
         }
 
+        public static bool IsBomInLijst(Bom bom)
+        {
+            return bomLijst.Contains(bom);
+        }
 
+        public static void VerwijderBom(Bom bom)
+        {
+            bomLijst.Remove(bom);
+        }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -125,6 +156,8 @@ namespace WindowsFormsApplication1
             mand2.teken(blackPen, e, this);
             mand1.teken(blackPen, e, this);
             bom.Teken(blackPen, e);
+            foreach(Bom bom in bomLijst.ToList())
+                bom.Teken(blackPen, e);
         }
 
         private void Game_FormClosed(object sender, FormClosedEventArgs e)

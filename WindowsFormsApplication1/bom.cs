@@ -58,7 +58,13 @@ namespace WindowsFormsApplication1
                 e.Graphics.DrawImage(explosions[aftellerExplosie], hoeken);
             else
             if (aftellerExplosie < 1)
-                Respawn();
+            {
+                if (!Game.IsBomInLijst(this))
+                    Respawn();
+                else
+                    Game.VerwijderBom(this);
+            }
+                
             else
                 e.Graphics.DrawImage(newImage, hoeken);
         }

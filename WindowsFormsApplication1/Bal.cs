@@ -92,7 +92,6 @@ namespace WindowsFormsApplication1
                 {
                     Botser.Open(SoundDirectory);
                     Botser.Play();
-                    //Geluid.Start();
                 }
 
             }
