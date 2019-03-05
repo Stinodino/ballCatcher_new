@@ -35,7 +35,7 @@ namespace WindowsFormsApplication1
 
             // start the periodic timer (wekker)
             System.Windows.Forms.Timer timer1 = new System.Windows.Forms.Timer();
-            timer1.Interval = 20;  // milisec
+            timer1.Interval = 5;  // milisec
             timer1.Tick += new System.EventHandler(timer1_Tick);
             timer1.Start();
 

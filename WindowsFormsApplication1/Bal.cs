@@ -82,7 +82,7 @@ namespace WindowsFormsApplication1
                 balY = mijnform.ClientRectangle.Height - groote;
                 vybal = -vybal * wrijving;
 
-                vxbal = vxbal * wrijvingbodem;
+                vxbal = vxbal * wrijvingbodem;//anders gaat de bal eeuwig blijven rollen. moet later weg
                 if(Math.Abs(vybal) > 1)
                     botser.Play();
             }
@@ -108,8 +108,6 @@ namespace WindowsFormsApplication1
 
         public virtual void teken(Pen onzePen, PaintEventArgs e)
         {
-            // Rectangle rect = new Rectangle(Convert.ToInt32(balX), Convert.ToInt32(balY), groote, groote);
-            // e.Graphics.DrawEllipse(onzePen, rect);
             Point ulCorner = new Point(Convert.ToInt32(balX), Convert.ToInt32(balY));
             Point urCorner = new Point(Convert.ToInt32(balX) + groote, Convert.ToInt32(balY));
             Point llCorner = new Point(Convert.ToInt32(balX), Convert.ToInt32(balY) + groote);
@@ -154,13 +152,38 @@ namespace WindowsFormsApplication1
                 float afstand = (float)Math.Sqrt((float)Math.Pow(middelpunt1x-middelpunt2x,2) + Math.Pow(middelpunt1y-middelpunt2y,2));
 
                 if(afstand<(groote/2)+(ballen[i].groote/2) && eigenNr != i)
-                    {
-                    //later nog algoritme schrijvenn
-                    }
+                {
+
+                    //ricoTan berekenen
+                    float ricoTan;
+                    if(middelpunt1y-middelpunt2y == 0)
+                        ricoTan = 1000000000;
+                    else
+                        ricoTan = (middelpunt1x-middelpunt2x)/(middelpunt1y-middelpunt2y);
+
+                    //ricoNorm berekenen
+                    float ricoNorm = -1/ricoTan;
+                    
+                    //vNorm1 en vTan1 berekenen
+                    float hoek = (float)Math.Atan2(ricoNorm,ricoTan);//is juist???
+                    float vtot1 = (float)Math.Sqrt(Math.Pow(vxbal,2)+Math.Pow(vybal,2));
+                    float vNorm1 = vtot1 * (float)Math.Cos((float)hoek);
+                    float vtan1 = vtot1 * (float)Math.Sin((float)hoek);
+                    
+                    //vNorm2 en vTan2 berekenen
+                    float vtot2 = (float)Math.Sqrt(Math.Pow(ballen[i].vxbal,2)+Math.Pow(ballen[i].vybal,2));
+                    float vNorm2 = vtot2 * (float)Math.Cos((float)hoek);
+                    float vtan2 = vtot2 * (float)Math.Sin((float)hoek);
+
+                    //e berekenen
+                    float wrijvingtot = (wrijving + ballen[i].wrijving)/2;
+                    
+                    float vNorm1Na = (groote*vNorm1 + ballen[i].groote*vNorm2 - ballen[i].groote*wrijvingtot*(vNorm1-vNorm2))/(groote+ballen[i].groote);
+                    float vNorm2Na = wrijvingtot*(vNorm1-vNorm2)+vNorm1Na;
 
 
+                }
             }
         }
-        
     }
 }
