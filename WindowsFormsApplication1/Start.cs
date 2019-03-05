@@ -29,11 +29,18 @@ namespace WindowsFormsApplication1
             }
             else
             {
+                //this.ActiveControl = null;
                 form = new Game();
             }
             form.Show();
             this.Hide();
         }
+
+        private void Start_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            labelControls.Text = e.KeyChar.ToString();
+        }
+
 
         //public Keys[] VraagControls(string naam)
         //{

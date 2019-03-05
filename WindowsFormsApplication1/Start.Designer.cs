@@ -101,6 +101,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Start";
             this.Text = "BallCatcher | Start nieuw spel";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Start_KeyPress);
             this.ResumeLayout(false);
             this.PerformLayout();
 
