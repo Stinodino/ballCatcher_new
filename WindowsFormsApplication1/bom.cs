@@ -59,7 +59,7 @@ namespace WindowsFormsApplication1
             else
             if (aftellerExplosie < 1)
             {
-                if (!Game.IsBomInLijst(this))
+                if (!Game.IsInBalLijst(this))
                     Respawn();
                 else
                     Game.VerwijderBom(this);
