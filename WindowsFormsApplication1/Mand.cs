@@ -66,10 +66,6 @@ namespace BallCatcher
         }
 
 
-
-
-
-
         public void Teken(Pen onzePen, PaintEventArgs e, Game mijnForm)
         {
 
@@ -118,10 +114,6 @@ namespace BallCatcher
                 mijnVXMand = -mijnVXMand * mijngroteWrijving;
                 mijnVYMand = mijnVYMand * mijngroteWrijving;
             }
-
-
-
-
         }
     }
 }

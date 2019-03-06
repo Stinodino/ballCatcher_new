@@ -13,15 +13,13 @@ namespace BallCatcher
 {
     public partial class Game : Form
     {
+        private int fps = 60;
         private Random random = new Random();
         public string Naam1 { get; set; }
         public string Naam2 { get; set; }
         public Controls Controls1 { get; set; }
         public Controls Controls2 { get; set; }
-
-
         public bool Fullscreen { get; set; }
-
 
         // Create pen en ballen.
         private Pen blackPen = new Pen(Color.Black, 3);
@@ -47,15 +45,23 @@ namespace BallCatcher
             InitializeComponent();
             Paint += new PaintEventHandler(MijnPaint);
 
-            // start the periodic timer (wekker)
-            System.Windows.Forms.Timer timer1 = new System.Windows.Forms.Timer
+            // start beweging timer
+            System.Windows.Forms.Timer bewegingTimer = new System.Windows.Forms.Timer
             {
                 Interval = 1  // milisec
             };
-            timer1.Tick += new System.EventHandler(Timer1Tick);
-            timer1.Start();
+            bewegingTimer.Tick += new System.EventHandler(BewegingTimerTick);
+            bewegingTimer.Start();
 
-            //geen timer meer
+            //start fps timer
+            System.Windows.Forms.Timer refreshScreenTimer = new System.Windows.Forms.Timer
+            {
+                Interval = 1000/fps  // milisec
+            };
+            refreshScreenTimer.Tick += new System.EventHandler(refreshScreenTimerTick);
+            refreshScreenTimer.Start();
+
+
             DoubleBuffered = true;
             int mandGrote = 100;
             mand1 = new Mand(300, ClientRectangle.Height - mandGrote, 0, 0, Naam1, 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, @"../../files/images/manden/mand1.png");
@@ -72,7 +78,14 @@ namespace BallCatcher
         }
 
 
-        private void Timer1Tick(object sender, EventArgs e)
+        private void refreshScreenTimerTick(object sender, EventArgs e)
+        {
+            Invalidate();
+        }
+
+
+
+            private void BewegingTimerTick(object sender, EventArgs e)
         {
             foreach (Bal bal in ballen)
             {
@@ -100,19 +113,8 @@ namespace BallCatcher
                         bom.ValNu();
                     }
                 }
+            }
 
-            }
-            /*
-            foreach (Bal bom in ballen)
-            {
-                if(bom is Bom)
-                {
-                    bom.Beweeg(this);
-                    bom.CheckMand(mand1, this);
-                    bom.CheckMand(mand2, this);
-                }
-            }
-            */
             foreach (Bal bal1 in ballen)
             {
                 foreach (Bal bal2 in ballen)
@@ -132,10 +134,8 @@ namespace BallCatcher
                     }
                 }
             }
-
-
             // herteken het scherm
-            Invalidate();
+            //Invalidate();
         }
 
         public static bool IsBomInLijst(Bom bom)
@@ -177,7 +177,6 @@ namespace BallCatcher
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
-
 
         private void MijnPaint(object sender, PaintEventArgs e)
         {

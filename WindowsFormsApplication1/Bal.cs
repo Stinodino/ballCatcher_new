@@ -14,10 +14,6 @@ using System.Windows.Media;
 
 namespace BallCatcher
 {
-
-
-
-
     public class Bal
     {
         public float balX = 0;
@@ -34,10 +30,6 @@ namespace BallCatcher
         protected Image newImage;
         public MediaPlayer Botser { get; set; }
         public Uri SoundDirectory { get; set; }
-
-
-
-
 
 
         public Bal(float startX,
@@ -78,8 +70,6 @@ namespace BallCatcher
             balY = balY + vybal;
             balX = balX + vxbal;
 
-
-
             if (balY > mijnform.ClientRectangle.Height - groote)
             {
                 balY = mijnform.ClientRectangle.Height - groote;
@@ -91,7 +81,6 @@ namespace BallCatcher
                     Botser.Open(SoundDirectory);
                     Botser.Play();
                 }
-
             }
             if (balX > mijnform.ClientRectangle.Width - groote)
             {
@@ -125,9 +114,8 @@ namespace BallCatcher
 
             float middelpunt1x = balX + (groote / 2);
             float middelpunt1y = balY + (groote / 2);
-
-
         }
+
         public virtual void CheckMand(Mand mijnMand, Game mijnForm)
         {
             if (((mijnMand.mijnXMand < balX) && (balX < mijnMand.mijnXMand + 100)) && (((mijnMand.mijnYMand < balY) && (balY < mijnMand.mijnYMand + 100))))
@@ -145,25 +133,20 @@ namespace BallCatcher
             vybal = -1;
         }
 
-
-
         public void CheckBotsing(Bal bal)
         {
-
             float middelpunt1x = balX + (groote / 2);
             float middelpunt1y = balY + (groote / 2);
 
             float middelpunt2x = bal.balX + (bal.groote / 2);
             float middelpunt2y = bal.balY + (bal.groote / 2);
 
-
             float afstand = (float)Math.Sqrt((float)Math.Pow(middelpunt1x - middelpunt2x, 2) + Math.Pow(middelpunt1y - middelpunt2y, 2));
-
 
             //ricoTan berekenen
             float ricoTan;
             if (middelpunt1y - middelpunt2y == 0)
-                ricoTan = 1000000000;
+                ricoTan = 1000000000;//moet oneindig zijn
             else
                 ricoTan = (middelpunt1x - middelpunt2x) / (middelpunt1y - middelpunt2y);
 
@@ -204,12 +187,11 @@ namespace BallCatcher
             else
             {
                 //bal1 rechts boven
-                middelpunt1x = middelpuntBallenX + Math.Abs((groote / 2 + 1) * (float)Math.Cos(hoek));
-                middelpunt1y = middelpuntBallenY - Math.Abs((groote / 2 + 1) * (float)Math.Sin(hoek));
-                middelpunt2x = middelpuntBallenX - Math.Abs((bal.groote / 2 + 1) * (float)Math.Cos(Math.PI - hoek));
-                middelpunt2y = middelpuntBallenY + Math.Abs((bal.groote / 2 + 1) * (float)Math.Sin(Math.PI - hoek));
+                middelpunt1x = middelpuntBallenX + Math.Abs((groote / 2) * (float)Math.Cos(hoek));
+                middelpunt1y = middelpuntBallenY - Math.Abs((groote / 2) * (float)Math.Sin(hoek));
+                middelpunt2x = middelpuntBallenX - Math.Abs((bal.groote / 2) * (float)Math.Cos(Math.PI - hoek));
+                middelpunt2y = middelpuntBallenY + Math.Abs((bal.groote / 2) * (float)Math.Sin(Math.PI - hoek));
             }
-
 
             balX = middelpunt1x - (groote / 2);
             balY = middelpunt1y - (groote / 2);
@@ -217,7 +199,6 @@ namespace BallCatcher
             bal.balY = middelpunt2y - (bal.groote / 2);
 
             //snelheden omvormen naar ander assenstelsel
-
             float vNorm1 = vxbal * (float)Math.Cos(hoek) - vybal * (float)Math.Sin(hoek);
             float vtan1 = vybal * (float)Math.Cos(hoek) + vxbal * (float)Math.Sin(hoek);
             float vNorm2 = bal.vxbal * (float)Math.Cos(hoek) - bal.vybal * (float)Math.Sin(hoek);
@@ -230,14 +211,11 @@ namespace BallCatcher
             float vNorm1Na = (groote * vNorm1 + bal.groote * vNorm2 - bal.groote * wrijvingtot * (vNorm1 - vNorm2)) / (groote + bal.groote);
             float vNorm2Na = wrijvingtot * (vNorm1 - vNorm2) + vNorm1Na;
 
-
             //omvormen van assenstelsel
             vxbal = vNorm1Na * (float)Math.Cos(-hoek) - vtan1 * (float)Math.Sin(-hoek);
             vybal = vtan1 * (float)Math.Cos(-hoek) + vNorm1Na * (float)Math.Sin(-hoek);
             bal.vxbal = vNorm2Na * (float)Math.Cos(-hoek) - vtan2 * (float)Math.Sin(-hoek);
             bal.vybal = vtan2 * (float)Math.Cos(-hoek) + vNorm2Na * (float)Math.Sin(-hoek);
-
-
         }
     }
 }
