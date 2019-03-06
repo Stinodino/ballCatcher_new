@@ -13,7 +13,7 @@ namespace WindowsFormsApplication1
 {
     public partial class Game : Form
     {
-        Random random = new Random();
+        private Random random = new Random();
         public string Naam1 { get; set; }
         public string Naam2 { get; set; }
 
@@ -23,14 +23,15 @@ namespace WindowsFormsApplication1
         // Create pen en ballen.
         private Pen blackPen = new Pen(Color.Black, 3);
         private Pen redPen = new Pen(Color.Red, 3);
-        private Bal[] ballen = {
+        private static List<Bal> ballen = new List<Bal>
+            {
             new RekkerBal(10, 10, 5, 0, 20, (float)0.81, (float)0.97, (float)0.81, @"../../files/images/ballen/kleine_rekkerbal.png", 3, @"../../files/sounds/kleine_rekkerbalbots.wav"),
             new RekkerBal(100, 10, 5, 0, 40, (float)0.71, (float)0.96, (float)0.81, @"../../files/images/ballen/middelgrote_rekkerbal.png", 2, @"../../files/sounds/middelgrote_rekkerbalbots.wav"),
             new RekkerBal(200, 10, 5, 0, 40, (float)0.69, (float)0.95, (float)0.81, @"../../files/images/ballen/grote_rekkerbal.png", 1, @"../../files/sounds/grote_rekkerbalbots.wav")};
         private Bom bom;
         private Mand mand1;
         private Mand mand2;
-        string[] explosions;
+        private string[] explosions;
 
         private static List<Bom> bomLijst = new List<Bom>();
 
@@ -68,11 +69,11 @@ namespace WindowsFormsApplication1
 
         private void Timer1Tick(object sender, EventArgs e)
         {
-            for (int i = 0; i < ballen.Length; i++)
+            foreach (Bal bal in ballen)
             {
-                ballen[i].Beweeg(this);
-                ballen[i].CheckMand(mand1, this);
-                ballen[i].CheckMand(mand2, this);
+                bal.Beweeg(this);
+                bal.CheckMand(mand1, this);
+                bal.CheckMand(mand2, this);
             }
 
             bom.Beweeg(this);
@@ -82,28 +83,48 @@ namespace WindowsFormsApplication1
             mand2.beweeg(this);
 
             int bomRegen = random.Next(0, 350);
-            if (bomRegen == 1 && bomLijst.Count() == 0)
+            if (bomRegen == 1 && ballen.OfType<Bom>().Count() == 0)
             {
                 for (int i = 0; i < random.Next(1, 50); i++)
-                    bomLijst.Add(new Bom(300, 10, 5, 0, 40, (float)0.40, (float)0.60, (float)0.81, -10, @"../../files/sounds/grote_rekkerbalbots.wav", @"../../files/images/ballen/bom.png", explosions));
-                foreach (Bom bom in bomLijst)
+                    ballen.Add(new Bom(300, 10, 5, 0, 40, (float)0.40, (float)0.60, (float)0.81, -10, @"../../files/sounds/grote_rekkerbalbots.wav", @"../../files/images/ballen/bom.png", explosions));
+                foreach (Bal bom in ballen)
                 {
-                    bom.Respawn();
-                    bom.ValNu();
+                    if(bom is Bom)
+                    {
+                        bom.Respawn();
+                        bom.ValNu();
+                    }
                 }
-                    
-            }
-            foreach (Bom bom in bomLijst)
-            {
-                bom.Beweeg(this);
-                bom.CheckMand(mand1, this);
-                bom.CheckMand(mand2, this);
-            }
-            //kleineBal.checkbotsing();
 
-            for (int i = 0; i < ballen.Length; i++)
+            }
+            foreach (Bal bom in ballen)
             {
-                ballen[i].CheckBotsing(ballen, i);
+                if(bom is Bom)
+                {
+                    bom.Beweeg(this);
+                    bom.CheckMand(mand1, this);
+                    bom.CheckMand(mand2, this);
+                }
+            }
+
+            foreach (Bal bal1 in ballen)
+            {
+                foreach (Bal bal2 in ballen)
+                {
+                    float middelpunt1x = bal1.balX + (bal1.groote / 2);
+                    float middelpunt1y = bal1.balY + (bal1.groote / 2);
+
+                    float middelpunt2x = bal2.balX + (bal2.groote / 2);
+                    float middelpunt2y = bal2.balY + (bal2.groote / 2);
+
+
+                    float afstand = (float)Math.Sqrt((float)Math.Pow(middelpunt1x - middelpunt2x, 2) + Math.Pow(middelpunt1y - middelpunt2y, 2));
+
+                    if (afstand < (bal1.groote / 2) + (bal2.groote / 2) && bal1 != bal2)
+                    {
+                        bal1.CheckBotsing(bal2);
+                    }
+                }
             }
 
 
@@ -116,9 +137,14 @@ namespace WindowsFormsApplication1
             return bomLijst.Contains(bom);
         }
 
+        public static bool IsInBalLijst(Bom bom)
+        {
+            return ballen.Contains(bom);
+        }
+
         public static void VerwijderBom(Bom bom)
         {
-            bomLijst.Remove(bom);
+            ballen.Remove(bom);
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -133,7 +159,7 @@ namespace WindowsFormsApplication1
                 mand2.links(this);
             else if (keyData == Keys.V)
             {
-                for (int i = 0; i < ballen.Length; i++) { ballen[i].ValNu(); }
+                for (int i = 0; i < ballen.Count; i++) { ballen[i].ValNu(); }
                 bom.ValNu();
             }
             else if (keyData == Keys.Up)
@@ -150,13 +176,13 @@ namespace WindowsFormsApplication1
             // Get Graphics Object
             Graphics g = e.Graphics;
 
-            for (int i = 0; i < ballen.Length; i++)
+            for (int i = 0; i < ballen.Count; i++)
                 ballen[i].Teken(blackPen, e);
 
             mand2.teken(blackPen, e, this);
             mand1.teken(blackPen, e, this);
             bom.Teken(blackPen, e);
-            foreach(Bom bom in bomLijst.ToList())
+            foreach (Bom bom in bomLijst.ToList())
                 bom.Teken(blackPen, e);
         }
 
