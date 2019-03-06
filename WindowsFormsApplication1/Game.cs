@@ -169,7 +169,7 @@ namespace BallCatcher
             }
             else if (keyData == Controls2.Omhoog)
                 mand2.Jump(this);
-            else if (keyData == Controls2.Omhoog)
+            else if (keyData == Controls1.Omhoog)
                 mand1.Jump(this);
             else if (keyData == Keys.F11)
                 GoFullscreen();
