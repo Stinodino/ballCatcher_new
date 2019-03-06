@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
 
-namespace WindowsFormsApplication1
+namespace BallCatcher
 {
 
 
@@ -133,7 +133,7 @@ namespace WindowsFormsApplication1
             if (((mijnMand.mijnXMand < balX) && (balX < mijnMand.mijnXMand + 100)) && (((mijnMand.mijnYMand < balY) && (balY < mijnMand.mijnYMand + 100))))
             {
                 // bal of bom in in mand
-                mijnMand.addPoint(mijnWaarde);
+                mijnMand.AddPoint(mijnWaarde);
                 Respawn();
             }
         }

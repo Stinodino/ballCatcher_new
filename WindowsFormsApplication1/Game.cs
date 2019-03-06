@@ -9,16 +9,19 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-namespace WindowsFormsApplication1
+namespace BallCatcher
 {
     public partial class Game : Form
     {
         private Random random = new Random();
         public string Naam1 { get; set; }
         public string Naam2 { get; set; }
+        public Controls Controls1 { get; set; }
+        public Controls Controls2 { get; set; }
 
-        public Keys[] Controls1 { get; set; }
-        public Keys[] Controls2 { get; set; }
+
+        public bool Fullscreen { get; set; }
+
 
         // Create pen en ballen.
         private Pen blackPen = new Pen(Color.Black, 3);
@@ -35,8 +38,10 @@ namespace WindowsFormsApplication1
 
         private static List<Bom> bomLijst = new List<Bom>();
 
-        public Game(string naam1, string naam2)
+        public Game(string naam1, string naam2, Controls controls1, Controls controls2)
         {
+            Controls1 = controls1;
+            Controls2 = controls2;
             Naam1 = naam1;
             Naam2 = naam2;
             InitializeComponent();
@@ -61,7 +66,7 @@ namespace WindowsFormsApplication1
                 explosions[i] = @"../../files/images/ballen/explosion/" + Convert.ToString(i + 1) + ".gif";
             bom = new Bom(300, 10, 5, 0, 40, (float)0.40, (float)0.60, -10, @"../../files/sounds/grote_rekkerbalbots.wav", @"../../files/images/ballen/bom.png", explosions);
         }
-        public Game() : this("Speler1", "Speler2")
+        public Game(Controls controls1, Controls controls2) : this("Speler1", "Speler2", controls1, controls2)
         {
 
         }
@@ -79,8 +84,8 @@ namespace WindowsFormsApplication1
             bom.Beweeg(this);
             bom.CheckMand(mand1, this);
             bom.CheckMand(mand2, this);
-            mand1.beweeg(this);
-            mand2.beweeg(this);
+            mand1.Beweeg(this);
+            mand2.Beweeg(this);
 
             int bomRegen = random.Next(0, 1000);
             if (bomRegen == 1 && ballen.OfType<Bom>().Count() == 0)
@@ -150,23 +155,25 @@ namespace WindowsFormsApplication1
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == Keys.D)
-                mand1.rechts(this);
-            else if (keyData == Keys.Q)
-                mand1.links(this);
-            else if (keyData == Keys.Right)
-                mand2.rechts(this);
-            else if (keyData == Keys.Left)
-                mand2.links(this);
+            if (keyData == Controls1.Rechts)
+                mand1.Rechts(this);
+            else if (keyData == Controls1.Links)
+                mand1.Links(this);
+            else if (keyData == Controls2.Rechts)
+                mand2.Rechts(this);
+            else if (keyData == Controls2.Links)
+                mand2.Links(this);
             else if (keyData == Keys.V)
             {
                 for (int i = 0; i < ballen.Count; i++) { ballen[i].ValNu(); }
                 bom.ValNu();
             }
-            else if (keyData == Keys.Up)
-                mand2.jump(this);
-            else if (keyData == Keys.Z)
-                mand1.jump(this);
+            else if (keyData == Controls2.Omhoog)
+                mand2.Jump(this);
+            else if (keyData == Controls1.Omhoog)
+                mand1.Jump(this);
+            else if (keyData == Keys.F11)
+                GoFullscreen();
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -180,8 +187,8 @@ namespace WindowsFormsApplication1
             for (int i = 0; i < ballen.Count; i++)
                 ballen[i].Teken(blackPen, e);
 
-            mand2.teken(blackPen, e, this);
-            mand1.teken(blackPen, e, this);
+            mand2.Teken(blackPen, e, this);
+            mand1.Teken(blackPen, e, this);
             bom.Teken(blackPen, e);
             foreach (Bom bom in bomLijst.ToList())
                 bom.Teken(blackPen, e);
@@ -190,6 +197,23 @@ namespace WindowsFormsApplication1
         private void Game_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void GoFullscreen()
+        {
+            if (!Fullscreen)
+            {
+                this.WindowState = FormWindowState.Normal;
+                this.FormBorderStyle = FormBorderStyle.None;
+                this.WindowState = FormWindowState.Maximized;
+                Fullscreen = true;
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Maximized;
+                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+                Fullscreen = false;
+            }
         }
     }
 }
