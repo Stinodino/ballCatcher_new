@@ -41,6 +41,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.DirectSound.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -57,6 +58,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bal.cs" />
+    <Compile Include="Controls.cs" />
+    <Compile Include="SetControls.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetControls.Designer.cs">
+      <DependentUpon>SetControls.cs</DependentUpon>
+    </Compile>
     <Compile Include="RekkerBallen.cs" />
     <Compile Include="bom.cs" />
     <Compile Include="Mand.cs" />
@@ -74,6 +82,9 @@
     <Compile Include="Start.Designer.cs">
       <DependentUpon>Start.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SetControls.resx">
+      <DependentUpon>SetControls.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Game.resx">
       <DependentUpon>Game.cs</DependentUpon>
     </EmbeddedResource>

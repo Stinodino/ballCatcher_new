@@ -11,7 +11,7 @@ using System.Media;
 using System.Threading;
 using System.Windows.Media;
 
-namespace WindowsFormsApplication1
+namespace BallCatcher
 {
     public class Bom: Bal
     {
@@ -77,7 +77,7 @@ namespace WindowsFormsApplication1
             {
                 if (aftellerExplosie > 17)
                 {
-                    mijnMand.addPoint(mijnWaarde);
+                    mijnMand.AddPoint(mijnWaarde);
                     Omplof(true);
                 }
             }

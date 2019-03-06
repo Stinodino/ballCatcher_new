@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsFormsApplication1
+namespace BallCatcher
 {
     public class Mand
     {
@@ -47,19 +47,19 @@ namespace WindowsFormsApplication1
             newImage = Image.FromFile(mijnFotoMand);
         }
 
-        public void rechts(Game mijnForm)
+        public void Rechts(Game mijnForm)
         {
             if ((mijnXMand < mijnForm.ClientRectangle.Width - mijnGrote) && (mijnVXMand < mijnSnelheidLemiet))//is NIET tegen rand? & nog niet aan lemiet?
                 mijnVXMand = mijnVXMand + mijnHorizontaleVersnelling;
         }
 
-        public void links(Game mijnForm)
+        public void Links(Game mijnForm)
         {
             if ((mijnXMand > 0 ) && (mijnVXMand > - mijnSnelheidLemiet))//is NIET tegen rand? & nog niet aan lemiet?
                 mijnVXMand = mijnVXMand - mijnHorizontaleVersnelling;
         }
 
-        public void jump(Game mijnForm)
+        public void Jump(Game mijnForm)
         {
             if (mijnYMand == mijnForm.ClientRectangle.Height - mijnGrote) //is tegen grond? + mand stuitert niet meer?
 
@@ -71,7 +71,7 @@ namespace WindowsFormsApplication1
 
 
 
-        public void teken(Pen onzePen, PaintEventArgs e, Game mijnForm)
+        public void Teken(Pen onzePen, PaintEventArgs e, Game mijnForm)
         {
 
             // Create parallelogram for drawing image..
@@ -86,13 +86,13 @@ namespace WindowsFormsApplication1
             g.DrawString(Convert.ToString(Punten), new Font("Verdana", 12), new SolidBrush(Color.White), mijnXMand + 30, mijnYMand + 60);
         }
 
-        public void addPoint(int waarde)
+        public void AddPoint(int waarde)
         {
             Punten = Punten + waarde;
         }
 
 
-        public void beweeg(Game mijnForm)
+        public void Beweeg(Game mijnForm)
         {
                 mijnVYMand = mijnVYMand + mijnZwaarteKracht;
 

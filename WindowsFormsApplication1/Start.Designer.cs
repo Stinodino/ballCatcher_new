@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication1
+﻿namespace BallCatcher
 {
     partial class Start
     {
@@ -35,11 +35,13 @@
             this.labelSpeler2 = new System.Windows.Forms.Label();
             this.buttonStart = new System.Windows.Forms.Button();
             this.labelControls = new System.Windows.Forms.Label();
+            this.buttonControls2 = new System.Windows.Forms.Button();
+            this.buttonControls1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBoxNaam1
             // 
-            this.textBoxNaam1.Location = new System.Drawing.Point(90, 87);
+            this.textBoxNaam1.Location = new System.Drawing.Point(90, 83);
             this.textBoxNaam1.Name = "textBoxNaam1";
             this.textBoxNaam1.Size = new System.Drawing.Size(235, 26);
             this.textBoxNaam1.TabIndex = 0;
@@ -54,7 +56,7 @@
             // labelSpeler1
             // 
             this.labelSpeler1.AutoSize = true;
-            this.labelSpeler1.Location = new System.Drawing.Point(12, 90);
+            this.labelSpeler1.Location = new System.Drawing.Point(12, 86);
             this.labelSpeler1.Name = "labelSpeler1";
             this.labelSpeler1.Size = new System.Drawing.Size(72, 20);
             this.labelSpeler1.TabIndex = 2;
@@ -87,11 +89,35 @@
             this.labelControls.Size = new System.Drawing.Size(0, 20);
             this.labelControls.TabIndex = 5;
             // 
+            // buttonControls2
+            // 
+            this.buttonControls2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonControls2.Location = new System.Drawing.Point(331, 125);
+            this.buttonControls2.Name = "buttonControls2";
+            this.buttonControls2.Size = new System.Drawing.Size(223, 33);
+            this.buttonControls2.TabIndex = 6;
+            this.buttonControls2.Text = "Controls";
+            this.buttonControls2.UseVisualStyleBackColor = true;
+            this.buttonControls2.Click += new System.EventHandler(this.ButtonControls2_Click);
+            // 
+            // buttonControls1
+            // 
+            this.buttonControls1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonControls1.Location = new System.Drawing.Point(331, 80);
+            this.buttonControls1.Name = "buttonControls1";
+            this.buttonControls1.Size = new System.Drawing.Size(223, 33);
+            this.buttonControls1.TabIndex = 7;
+            this.buttonControls1.Text = "Controls";
+            this.buttonControls1.UseVisualStyleBackColor = true;
+            this.buttonControls1.Click += new System.EventHandler(this.ButtonControls1_Click);
+            // 
             // Start
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(560, 387);
+            this.ClientSize = new System.Drawing.Size(686, 403);
+            this.Controls.Add(this.buttonControls1);
+            this.Controls.Add(this.buttonControls2);
             this.Controls.Add(this.labelControls);
             this.Controls.Add(this.buttonStart);
             this.Controls.Add(this.labelSpeler2);
@@ -115,5 +141,7 @@
         private System.Windows.Forms.Label labelSpeler2;
         private System.Windows.Forms.Button buttonStart;
         private System.Windows.Forms.Label labelControls;
+        private System.Windows.Forms.Button buttonControls2;
+        private System.Windows.Forms.Button buttonControls1;
     }
 }
