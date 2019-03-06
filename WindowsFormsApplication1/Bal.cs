@@ -30,7 +30,7 @@ namespace WindowsFormsApplication1
         protected int mijnWaarde;
         protected bool val = false;
         protected Random rnd;
-        protected float mijnZwaarteKracht = (float)0.81;
+        protected float mijnZwaarteKracht = (float)0.3;
         protected Image newImage;
         public MediaPlayer Botser { get; set; }
         public Uri SoundDirectory { get; set; }
@@ -47,7 +47,6 @@ namespace WindowsFormsApplication1
             int startgroote,
             float balwrijving,
             float balwrijvingbodem,
-            float zwaarteKracht,
             string fotoBal,
             int waarde,
             string soundDirecotry)
@@ -62,7 +61,6 @@ namespace WindowsFormsApplication1
             wrijvingbodem = balwrijvingbodem;
             mijnWaarde = waarde;
             rnd = new Random();
-            mijnZwaarteKracht = zwaarteKracht;
             newImage = Image.FromFile(fotoBal);
             Botser = new MediaPlayer();
             SoundDirectory = new Uri(soundDirecotry, UriKind.Relative);
@@ -143,8 +141,8 @@ namespace WindowsFormsApplication1
         {
             balX = rnd.Next(100, 1400);
             balY = 100;
-            vxbal = rnd.Next(-70, 70);
-            vybal = -5;
+            vxbal = rnd.Next(-3, 3);
+            vybal = -1;
         }
 
 
@@ -220,10 +218,9 @@ namespace WindowsFormsApplication1
 
             //snelheden omvormen naar ander assenstelsel
 
-            float vNorm1 = vxbal * (float)Math.Cos(hoek) + vybal * (float)Math.Sin(hoek);
+            float vNorm1 = vxbal * (float)Math.Cos(hoek) - vybal * (float)Math.Sin(hoek);
             float vtan1 = vybal * (float)Math.Cos(hoek) + vxbal * (float)Math.Sin(hoek);
-
-            float vNorm2 = bal.vxbal * (float)Math.Cos(hoek) + bal.vybal * (float)Math.Sin(hoek);
+            float vNorm2 = bal.vxbal * (float)Math.Cos(hoek) - bal.vybal * (float)Math.Sin(hoek);
             float vtan2 = bal.vybal * (float)Math.Cos(hoek) + bal.vxbal * (float)Math.Sin(hoek);
 
             //e berekenen
@@ -233,11 +230,12 @@ namespace WindowsFormsApplication1
             float vNorm1Na = (groote * vNorm1 + bal.groote * vNorm2 - bal.groote * wrijvingtot * (vNorm1 - vNorm2)) / (groote + bal.groote);
             float vNorm2Na = wrijvingtot * (vNorm1 - vNorm2) + vNorm1Na;
 
+
             //omvormen van assenstelsel
-            vxbal = vNorm1Na * (float)Math.Cos(hoek) + vtan1 * (float)Math.Cos(hoek);
-            vybal = vtan1 * (float)Math.Cos(hoek) + vtan1 * (float)Math.Cos(hoek);
-            bal.vxbal = vNorm2Na * (float)Math.Cos(hoek) + vtan2 * (float)Math.Cos(hoek);
-            bal.vybal = vtan2 * (float)Math.Cos(hoek) + vtan2 * (float)Math.Cos(hoek);
+            vxbal = vNorm1Na * (float)Math.Cos(-hoek) - vtan1 * (float)Math.Sin(-hoek);
+            vybal = vtan1 * (float)Math.Cos(-hoek) + vNorm1Na * (float)Math.Sin(-hoek);
+            bal.vxbal = vNorm2Na * (float)Math.Cos(-hoek) - vtan2 * (float)Math.Sin(-hoek);
+            bal.vybal = vtan2 * (float)Math.Cos(-hoek) + vNorm2Na * (float)Math.Sin(-hoek);
 
 
         }

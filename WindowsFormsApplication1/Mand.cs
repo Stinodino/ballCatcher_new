@@ -16,7 +16,7 @@ namespace WindowsFormsApplication1
         public float mijnYMand = 100;
         float mijnVXMand = 0;
         float mijnVYMand = 0;
-        float mijnZwaarteKracht = (float) 0.81;
+        float mijnZwaarteKracht = (float) 0.3;
         public int Punten { get; set; }
         public int mijnGrote;
         float mijngroteWrijving = 0;
@@ -28,13 +28,12 @@ namespace WindowsFormsApplication1
         string naam = "no name";
         Image newImage;
 
-        public Mand(float startMandX, float startMandY, float startMandVX, float startMandVY, float zwaarteKracht, string speler, int mijnPunten, int startGrote ,float groteWrijving,float kleineWrijving, float snelheidLemiet, float jumpKracht, float horizontaleVersnelling, string foto)
+        public Mand(float startMandX, float startMandY, float startMandVX, float startMandVY, string speler, int mijnPunten, int startGrote ,float groteWrijving,float kleineWrijving, float snelheidLemiet, float jumpKracht, float horizontaleVersnelling, string foto)
         {
             mijnXMand = startMandX;
             mijnYMand = startMandY;
             mijnVXMand = startMandVX;
             mijnVYMand = startMandVY;
-            mijnZwaarteKracht = zwaarteKracht;
             mijngroteWrijving = groteWrijving;
             mijnkleineWrijving = kleineWrijving;
             mijnFotoMand = foto;

@@ -25,9 +25,9 @@ namespace WindowsFormsApplication1
         private Pen redPen = new Pen(Color.Red, 3);
         private static List<Bal> ballen = new List<Bal>
             {
-            new RekkerBal(10, 10, 5, 0, 20, (float)0.81, (float)0.97, (float)0.81, @"../../files/images/ballen/kleine_rekkerbal.png", 3, @"../../files/sounds/kleine_rekkerbalbots.wav"),
-            new RekkerBal(100, 10, 5, 0, 40, (float)0.71, (float)0.96, (float)0.81, @"../../files/images/ballen/middelgrote_rekkerbal.png", 2, @"../../files/sounds/middelgrote_rekkerbalbots.wav"),
-            new RekkerBal(200, 10, 5, 0, 40, (float)0.69, (float)0.95, (float)0.81, @"../../files/images/ballen/grote_rekkerbal.png", 1, @"../../files/sounds/grote_rekkerbalbots.wav")};
+            new RekkerBal(1000, 110, 2, 0, 20, (float)0.81, (float)0.97, @"../../files/images/ballen/kleine_rekkerbal.png", 3, @"../../files/sounds/kleine_rekkerbalbots.wav"),
+            new RekkerBal(100, 100, 1, 0, 40, (float)0.71, (float)0.96, @"../../files/images/ballen/middelgrote_rekkerbal.png", 2, @"../../files/sounds/middelgrote_rekkerbalbots.wav"),
+            new RekkerBal(400, 130, -1, 0, 40, (float)0.69, (float)0.95, @"../../files/images/ballen/grote_rekkerbal.png", 1, @"../../files/sounds/grote_rekkerbalbots.wav")};
         private Bom bom;
         private Mand mand1;
         private Mand mand2;
@@ -45,7 +45,7 @@ namespace WindowsFormsApplication1
             // start the periodic timer (wekker)
             System.Windows.Forms.Timer timer1 = new System.Windows.Forms.Timer
             {
-                Interval = 20  // milisec
+                Interval = 1  // milisec
             };
             timer1.Tick += new System.EventHandler(Timer1Tick);
             timer1.Start();
@@ -53,13 +53,13 @@ namespace WindowsFormsApplication1
             //geen timer meer
             DoubleBuffered = true;
             int mandGrote = 100;
-            mand1 = new Mand(300, ClientRectangle.Height - mandGrote, 0, 0, (float)0.81, Naam1, 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, @"../../files/images/manden/mand1.png");
-            mand2 = new Mand(800, ClientRectangle.Height - mandGrote, 0, 0, (float)0.81, Naam2, 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, @"../../files/images/manden/mand2.png");
+            mand1 = new Mand(300, ClientRectangle.Height - mandGrote, 0, 0, Naam1, 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, @"../../files/images/manden/mand1.png");
+            mand2 = new Mand(800, ClientRectangle.Height - mandGrote, 0, 0, Naam2, 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, @"../../files/images/manden/mand2.png");
 
             explosions = new string[16];
             for (int i = 0; i < 16; i++)
                 explosions[i] = @"../../files/images/ballen/explosion/" + Convert.ToString(i + 1) + ".gif";
-            bom = new Bom(300, 10, 5, 0, 40, (float)0.40, (float)0.60, (float)0.81, -10, @"../../files/sounds/grote_rekkerbalbots.wav", @"../../files/images/ballen/bom.png", explosions);
+            bom = new Bom(300, 10, 5, 0, 40, (float)0.40, (float)0.60, -10, @"../../files/sounds/grote_rekkerbalbots.wav", @"../../files/images/ballen/bom.png", explosions);
         }
         public Game() : this("Speler1", "Speler2")
         {
@@ -82,11 +82,11 @@ namespace WindowsFormsApplication1
             mand1.beweeg(this);
             mand2.beweeg(this);
 
-            int bomRegen = random.Next(0, 350);
+            int bomRegen = random.Next(0, 1000);
             if (bomRegen == 1 && ballen.OfType<Bom>().Count() == 0)
             {
                 for (int i = 0; i < random.Next(1, 50); i++)
-                    ballen.Add(new Bom(300, 10, 5, 0, 40, (float)0.40, (float)0.60, (float)0.81, -10, @"../../files/sounds/grote_rekkerbalbots.wav", @"../../files/images/ballen/bom.png", explosions));
+                    ballen.Add(new Bom(300, 10, 5, 0, 40, (float)0.40, (float)0.60, -10, @"../../files/sounds/grote_rekkerbalbots.wav", @"../../files/images/ballen/bom.png", explosions));
                 foreach (Bal bom in ballen)
                 {
                     if(bom is Bom)
@@ -97,6 +97,7 @@ namespace WindowsFormsApplication1
                 }
 
             }
+            /*
             foreach (Bal bom in ballen)
             {
                 if(bom is Bom)
@@ -106,7 +107,7 @@ namespace WindowsFormsApplication1
                     bom.CheckMand(mand2, this);
                 }
             }
-
+            */
             foreach (Bal bal1 in ballen)
             {
                 foreach (Bal bal2 in ballen)

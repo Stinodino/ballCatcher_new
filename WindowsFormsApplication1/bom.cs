@@ -26,13 +26,12 @@ namespace WindowsFormsApplication1
           int startgroote,
           float balwrijving,
           float balwrijvingbodem,
-          float zwaarteKracht,
           int waarde,
           string soundDirecotry,
           string fotoBal,
           string[] fotoExplosies
 
-          ) : base(startX, startY, startVX, startVY, startgroote, balwrijving, balwrijvingbodem, zwaarteKracht, fotoBal, waarde, soundDirecotry)
+          ) : base(startX, startY, startVX, startVY, startgroote, balwrijving, balwrijvingbodem, fotoBal, waarde, soundDirecotry)
         {
             explosions = new Image[fotoExplosies.Length];
             for(int i = 0; i<fotoExplosies.Length;i++)
