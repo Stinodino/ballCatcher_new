@@ -13,7 +13,7 @@ namespace BallCatcher
 {
     public partial class Game : Form
     {
-        private int fps = 60;
+        private const int FPS = 100;
         private Random random = new Random();
         public string Naam1 { get; set; }
         public string Naam2 { get; set; }
@@ -56,7 +56,7 @@ namespace BallCatcher
             //start fps timer
             System.Windows.Forms.Timer refreshScreenTimer = new System.Windows.Forms.Timer
             {
-                Interval = 1000/fps  // milisec
+                Interval = 1000/FPS  // milisec
             };
             refreshScreenTimer.Tick += new System.EventHandler(refreshScreenTimerTick);
             refreshScreenTimer.Start();

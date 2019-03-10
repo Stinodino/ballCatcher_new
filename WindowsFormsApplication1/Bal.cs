@@ -129,8 +129,8 @@ namespace BallCatcher
         {
             balX = rnd.Next(100, 1400);
             balY = 100;
-            vxbal = rnd.Next(-3, 3);
-            vybal = -1;
+            vxbal = rnd.Next(-30, 30);
+            vybal = rnd.Next(-10,10);
         }
 
         public void CheckBotsing(Bal bal)
@@ -146,7 +146,7 @@ namespace BallCatcher
             //ricoTan berekenen
             float ricoTan;
             if (middelpunt1y - middelpunt2y == 0)
-                ricoTan = 1000000000;//moet oneindig zijn
+                ricoTan = 3.402823e38f;//moet oneindig zijn
             else
                 ricoTan = (middelpunt1x - middelpunt2x) / (middelpunt1y - middelpunt2y);
 
