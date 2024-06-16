@@ -12,6 +12,7 @@ namespace BallCatcher
 {
     public class Mand
     {
+        public Controls Controls { get; set; }
         public float mijnXMand = 100;
         public float mijnYMand = 100;
         float mijnVXMand = 0;
@@ -25,7 +26,7 @@ namespace BallCatcher
         float mijnJumpKracht = 10;
         float mijnHorizontaleVersnelling = 5;
         string mijnFotoMand = "../../files/images/manden/mand1.png";
-        string naam = "no name";
+        string naam = "";
         Image newImage;
 
         public Mand(float startMandX, float startMandY, float startMandVX, float startMandVY, string speler, int mijnPunten, int startGrote ,float groteWrijving,float kleineWrijving, float snelheidLemiet, float jumpKracht, float horizontaleVersnelling, string foto)

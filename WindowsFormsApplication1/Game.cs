@@ -13,12 +13,10 @@ namespace BallCatcher
 {
     public partial class Game : Form
     {
-        private const int FPS = 100;
+        private const int FPS = 240; // Ik heb dit hoog gezet want dat maakt het precies sowieso beter ondanks dat ik maar een 60fps scherm heb. (wanneer ik dit op 60 zet dan is het merkbaar lagere framerate)
         private Random random = new Random();
         public string Naam1 { get; set; }
         public string Naam2 { get; set; }
-        public Controls Controls1 { get; set; }
-        public Controls Controls2 { get; set; }
         public bool Fullscreen { get; set; }
 
         // Create pen en ballen.
@@ -30,16 +28,13 @@ namespace BallCatcher
             new RekkerBal(100, 100, 1, 0, 40, (float)0.71, (float)0.96, @"../../files/images/ballen/middelgrote_rekkerbal.png", 2, @"../../files/sounds/middelgrote_rekkerbalbots.wav"),
             new RekkerBal(400, 130, -1, 0, 40, (float)0.69, (float)0.95, @"../../files/images/ballen/grote_rekkerbal.png", 1, @"../../files/sounds/grote_rekkerbalbots.wav")};
         private Bom bom;
-        private Mand mand1;
-        private Mand mand2;
+        private List<Mand> manden = new List<Mand>();
         private string[] explosions;
 
         private static List<Bom> bomLijst = new List<Bom>();
 
         public Game(string naam1, string naam2, Controls controls1, Controls controls2)
         {
-            Controls1 = controls1;
-            Controls2 = controls2;
             Naam1 = naam1;
             Naam2 = naam2;
             InitializeComponent();
@@ -64,8 +59,19 @@ namespace BallCatcher
 
             DoubleBuffered = true;
             int mandGrote = 100;
-            mand1 = new Mand(300, ClientRectangle.Height - mandGrote, 0, 0, Naam1, 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, @"../../files/images/manden/mand1.png");
-            mand2 = new Mand(800, ClientRectangle.Height - mandGrote, 0, 0, Naam2, 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, @"../../files/images/manden/mand2.png");
+            var mand1 = new Mand(300, ClientRectangle.Height - mandGrote, 0, 0, Naam1, 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, @"../../files/images/manden/mand1.png");
+            var mand2 = new Mand(800, ClientRectangle.Height - mandGrote, 0, 0, Naam2, 0, mandGrote, (float)0.4, (float)0.9, 10, 30, 5, @"../../files/images/manden/mand2.png");
+
+            if(naam1.Length > 0)
+            {
+                mand1.Controls = controls1;
+                manden.Add(mand1);
+            }
+            if(naam2.Length > 0)
+            {
+                mand2.Controls = controls2;
+                manden.Add(mand2);
+            }
 
             explosions = new string[16];
             for (int i = 0; i < 16; i++)
@@ -90,16 +96,19 @@ namespace BallCatcher
             foreach (Bal bal in ballen)
             {
                 bal.Beweeg(this);
-                bal.CheckMand(mand1, this);
-                bal.CheckMand(mand2, this);
+                foreach(Mand mand in manden)
+                {
+                    bal.CheckMand(mand, this);
+                }
             }
 
             bom.Beweeg(this);
-            bom.CheckMand(mand1, this);
-            bom.CheckMand(mand2, this);
-            mand1.Beweeg(this);
-            mand2.Beweeg(this);
-
+            foreach(Mand mand in manden)
+            {
+                bom.CheckMand(mand, this);
+                mand.Beweeg(this);
+            }
+            
             int bomRegen = random.Next(0, 1000);
             if (bomRegen == 1 && ballen.OfType<Bom>().Count() == 0)
             {
@@ -155,26 +164,33 @@ namespace BallCatcher
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == Controls1.Rechts)
-                mand1.Rechts(this);
-            else if (keyData == Controls1.Links)
-                mand1.Links(this);
-            else if (keyData == Controls2.Rechts)
-                mand2.Rechts(this);
-            else if (keyData == Controls2.Links)
-                mand2.Links(this);
-            else if (keyData == Keys.V)
+            if(keyData == Keys.V)
             {
                 for (int i = 0; i < ballen.Count; i++) { ballen[i].ValNu(); }
                 bom.ValNu();
             }
-            else if (keyData == Controls2.Omhoog)
-                mand2.Jump(this);
-            else if (keyData == Controls1.Omhoog)
-                mand1.Jump(this);
             else if (keyData == Keys.F11)
                 GoFullscreen();
+            else
+            {
+                foreach(var mand in manden)
+                {
+                    var controls = mand.Controls;
 
+                    if(keyData == controls.Rechts)
+                    {
+                        mand.Rechts(this);
+                    }
+                    else if(keyData == controls.Links)
+                    {
+                        mand.Links(this);
+                    }
+                    else if(keyData == controls.Omhoog)
+                    {
+                        mand.Jump(this);
+                    }
+                }
+            }
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
@@ -186,8 +202,10 @@ namespace BallCatcher
             for (int i = 0; i < ballen.Count; i++)
                 ballen[i].Teken(blackPen, e);
 
-            mand2.Teken(blackPen, e, this);
-            mand1.Teken(blackPen, e, this);
+            foreach(var mand in manden)
+            {
+                mand.Teken(blackPen, e, this);
+            }
             bom.Teken(blackPen, e);
             foreach (Bom bom in bomLijst.ToList())
                 bom.Teken(blackPen, e);
@@ -202,15 +220,15 @@ namespace BallCatcher
         {
             if (!Fullscreen)
             {
-                this.WindowState = FormWindowState.Normal;
-                this.FormBorderStyle = FormBorderStyle.None;
-                this.WindowState = FormWindowState.Maximized;
+                WindowState = FormWindowState.Normal;
+                FormBorderStyle = FormBorderStyle.None;
+                WindowState = FormWindowState.Maximized;
                 Fullscreen = true;
             }
             else
             {
-                this.WindowState = FormWindowState.Maximized;
-                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+                WindowState = FormWindowState.Maximized;
+                FormBorderStyle = FormBorderStyle.Sizable;
                 Fullscreen = false;
             }
         }
